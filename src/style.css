@@ -3,12 +3,17 @@
 html,
 body {
   margin: 0;
+  width: 100%;
+  padding: 0px;
+  overflow-x: hidden;
 }
 
 #home {
   min-height: 100vh;
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   overflow: hidden;
+  text-align: center;
+  /* width: 100; */
 }
 
 #stars {
@@ -627,6 +632,10 @@ body {
 
 .btn-1 {
   border: 2px solid #fff;
+  /* display: flex;
+  align-items: center;
+  text-align: center; */
+  padding: 12px 24px;
   background: none;
   color: #fff;
 }
@@ -641,8 +650,8 @@ body {
 
 .btn-1b:hover,
 .btn-1b:active {
-  background: #06C2C9;
-  border: 2px solid #06C2C9;
+  background: #06c2c9;
+  border: 2px solid #06c2c9;
 }
 
 .btn-1b:hover:after,
@@ -650,11 +659,18 @@ body {
   height: 100%;
 }
 
+#homeBtn .homeArrow {
+  transition: transform 0.3s ease-in-out;
+}
+
+#homeBtn:hover .homeArrow {
+  transform: rotate(90deg);
+}
+
 /* pic */
 .me {
   margin: auto;
   height: 250px;
-
 }
 
 .line {
@@ -670,43 +686,43 @@ body {
 
 .progress {
   /* display: inline-block; */
-	background-color: #eeeeee;
-	/* border-radius: 20px; */
-	/* position: relative; */
-	margin: 5px 0;
-	height: 30px;
-	width: 350px;
+  background-color: #eeeeee;
+  /* border-radius: 20px; */
+  /* position: relative; */
+  margin: 5px 0;
+  height: 30px;
+  width: 350px;
 }
 
 .progress-done {
-	/* background: linear-gradient(to left, #04A1A6, #0FC2C9); */
-  background: #04A1A6;
+  /* background: linear-gradient(to left, #04A1A6, #0FC2C9); */
+  background: #04a1a6;
   font-family: "Raleway";
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	width: 0;
-	opacity: 0;
-	transition: 1s ease 0.3s;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  width: 0;
+  opacity: 0;
+  transition: 1s ease 0.3s;
   font-size: 11pt;
 }
 
 .pname {
   /* display: inline-block; */
-	/* border-radius: 20px 0 0 20px;  */
+  /* border-radius: 20px 0 0 20px;  */
   font-family: "Raleway";
-	color: #fff;
+  color: #fff;
   font-weight: 600;
   display: flex;
-	align-items: center;
-	justify-content: center;
-	margin: 5px 0;
-	height: 30px;
-	width: 110px;
+  align-items: center;
+  justify-content: center;
+  margin: 5px 0;
+  height: 30px;
+  width: 110px;
   margin-right: 0;
-  background: #0FC2C9;
+  background: #0fc2c9;
   padding: 0 10px 0 15px;
   font-size: 11pt;
 }
@@ -717,3 +733,21 @@ body {
   justify-content: center;
 }
 
+@media screen and (min-width: 960px) {
+  .btn-1 {
+    font-size: 16pt;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  #home {
+    line-height: 18pt;
+    font-size: 12pt;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .progress {
+    width: 250px;
+  }
+}

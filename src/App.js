@@ -5,6 +5,7 @@ import Card from './components/Card';
 import Patent from './components/Patent';
 import { HiChevronDoubleUp } from 'react-icons/hi'
 import { FaLinkedinIn, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa'
+import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useRef } from 'react';
 
 function App() {
@@ -32,11 +33,11 @@ function App() {
           <TitleText>
             I'm a Software Developer.
           </TitleText>
-          <div>
-            <button onClick={() => scrollToSection(about)} className='btn btn-1 btn-1b'>View my work</button>
+          <div >
+            <button id='homeBtn' onClick={() => scrollToSection(about)} className='btn btn-1 btn-1b'>View my work   <AiOutlineArrowRight className='homeArrow' /> </button>
           </div>
         </div>
-      </section>
+      </section >
 
       <AboutSection ref={about}>
         <Header >ABOUT</Header>
@@ -48,7 +49,8 @@ function App() {
             <Label> Who's this guy? </Label>
             <Aboutme>
               Upcoming software development at bank of america.
-              An undergrad currently pursuing B.Tech in Computer Science and eager to learn new technologies.
+              An undergrad currently pursuing B.Tech in Computer Science
+              and eager to learn new technologies.
               <br />
               <SpanLink onClick={() => scrollToSection(contact)} dest="contact">Let's make something special.</SpanLink>
             </Aboutme>
@@ -160,6 +162,18 @@ function App() {
         </PatentSectionInner>
       </PatentSection>
 
+      <ResearchSection>
+        <Header >PUBLISHED RESEARCH PAPER </Header>
+        <HeaderLine />
+
+        <RLabel>
+          Role of Hybrid Optimization in Improving Performance of Sentiment Classification System
+        </RLabel>
+        <Rinfo>
+          A. Shukla, V. Juneja, S. Singh, U. Prajapati, A. Gupta and D. Dhabliya, "Role of Hybrid Optimization in Improving Performance of Sentiment Classification System," 2022 Seventh International Conference on Parallel, Distributed and Grid Computing (PDGC), Solan, Himachal Pradesh, India, 2022, pp. 541-546, doi: 10.1109/PDGC56933.2022.10053333.
+        </Rinfo>
+      </ResearchSection>
+
       <Contact ref={contact}>
         <svg style={{ left: '0', position: 'absolute', top: '0' }} preserveAspectRatio="none" viewBox="0 0 100 102" height="75" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="svgcolor-light">
           <path d="M0 0 L50 100 L100 0 Z" fill="white" stroke="white"></path>
@@ -208,10 +222,9 @@ function App() {
           </Footnote>
         </InfoBox>
       </Footer>
-    </div>
+    </div >
   );
 }
-
 
 const Footer = styled.section`
 background: #1b242f;
@@ -375,7 +388,17 @@ flex-wrap: wrap;
 `
 
 const PatentSection = styled.section`
-padding: 130px 0 180px 0;
+padding: 130px 0 0px 0;
+text-align: left;
+line-height: 18pt;
+color: #616161;
+font-family: "Raleway";
+`
+
+const ResearchSection = styled.section`
+max-width: 1200px;
+margin: 0 auto;
+padding: 50px 0px 180px 0px;
 text-align: left;
 line-height: 18pt;
 color: #616161;
@@ -417,7 +440,22 @@ color: #616161;
 padding: 100px 0 130px 0;
 `
 
+const RLabel = styled.div`
+margin: 20px auto;
+padding: 0 50px;
+font-size: 18pt;
+font-weight: bold;
+font-family: "Raleway";
+color: #616161;
+text-decoration: none;
+
+@media (max-width: 600) {
+    font-size: 12pt;
+  }
+`
+
 const Label = styled.div`
+max-width: 700px;
 margin: 20px 0 15px 0;
 font-size: 18pt;
 font-weight: bold;
@@ -426,12 +464,25 @@ text-align: center;
 
 `
 
+const Rinfo = styled.div`
+padding: 0 50px;
+margin: auto;
+font-size: 12pt;
+font-family: "Raleway";
+color: #616161;
+
+@media (max-width: 600) {
+    font-size: 8pt;
+  }
+`
+
 const Aboutme = styled.div`
+margin: 10px;
+padding: 0 0px 0 0;
 font-size: 12pt;
 font-family: "Raleway";
 color: #616161;
 text-align: center;
-
 `
 
 const SpanLink = styled.span`
@@ -442,19 +493,21 @@ cursor: pointer;
 
 const Flex1 = styled.div`
   display: flex;
-  padding: 0 0 0 50px;
+  padding: 0 0 0 0px;
   box-sizing: border-box;
   flex: 1 1 50%;
   max-height: 100%;
-  max-width: 50%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 600) {
+    font-size: 8pt;
+  }
 `
 const Flex2 = styled.div`
-
   display: flex;
-  margin: 0 0 0 0;
+  margin: 0px auto;
   max-width: 90%;
   width: calc(100% - 15px);
   flex: 1 1 50%;
@@ -462,6 +515,11 @@ const Flex2 = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
+
+  @media (max-width: 600) {
+    padding: 0 50px 0 50px;
+    font-size: 8pt;
+  }
 `
 
 const HeaderLine = styled.div`
@@ -475,22 +533,31 @@ const HeaderLine = styled.div`
 const AboutInfoSection = styled.section`
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 50px;
+  // padding: 0 50px;
   align-items: flex-start;
   width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   flex-direction: row;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+  }
 `
 
 const Header = styled.div`
+line-height: 150%;
   font-family: "raleway";
-  font-size: 30pt;
+  font-size: 25pt;
   color: #444649;
   font-weight: bold;
   display: block;
   text-align: center;
+
+  @media (min-width: 600px) {
+    font-size: 30pt;
+  }
 `
 
 const AboutSection = styled.section`
@@ -512,6 +579,11 @@ const TitleText = styled.div`
   color: #fff;
   font-family: "Raleway";
   -webkit-font-smoothing: antialiased;
+
+  @media (max-width: 600px) {
+    font-size: 16pt;
+    line-height: 20pt;
+  }
 `
 
 const NameS = styled.span`
