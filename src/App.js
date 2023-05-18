@@ -45,7 +45,7 @@ function App() {
 
         <AboutInfoSection>
           <Flex1>
-            <img src='me.png' class="me" />
+            <img src='me.png' alt='me' class="me" />
             <Label> Who's this guy? </Label>
             <Aboutme>
               Upcoming software development at bank of america.
