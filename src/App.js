@@ -5,7 +5,7 @@ import Card from './components/Card';
 import Patent from './components/Patent';
 import Education from './components/Education';
 import { HiChevronDoubleUp } from 'react-icons/hi'
-import { FaLinkedinIn, FaGithub, FaInstagram } from 'react-icons/fa'
+import { FaLinkedinIn, FaGithub, FaInstagram, FaTwitter } from 'react-icons/fa'
 import { AiOutlineArrowRight } from 'react-icons/ai';
 import { useRef } from 'react';
 
