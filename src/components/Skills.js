@@ -1,23 +1,28 @@
 import React from 'react';
 import styled from 'styled-components';
+import { FaCode, FaServer, FaProjectDiagram, FaChartBar } from 'react-icons/fa';
 
 const Skills = () => {
   const skillCategories = {
     frontend: {
+      icon: <FaCode />,
       title: "Frontend Development",
-      skills: ["React", "HTML", "CSS", "JavaScript"]
+      skills: ["React", "HTML", "CSS", "JavaScript", "Redux"]
     },
     backend: {
+      icon: <FaServer />,
       title: "Backend Development",
-      skills: ["Node.js", "Python", "Java", "MongoDB", "MySQL"]
+      skills: ["Node.js", "Python", "Java", "MongoDB", "MySQL", "REST APIs"]
     },
     projectManagement: {
+      icon: <FaProjectDiagram />,
       title: "Project Management",
-      skills: ["Git", "Agile", "Scrum", "Team Leadership"]
+      skills: ["Git", "Agile", "Scrum", "Team Leadership", "JIRA", "Risk Management"]
     },
     dataAnalytics: {
+      icon: <FaChartBar />,
       title: "Data Analytics",
-      skills: ["Data Visualization", "Statistical Analysis", "Machine Learning", "Python Analytics"]
+      skills: ["Data Visualization", "Statistical Analysis", "Machine Learning", "Python Analytics", "SQL", "Power BI"]
     }
   };
 
@@ -26,7 +31,10 @@ const Skills = () => {
       <SkillsGrid>
         {Object.values(skillCategories).map((category, index) => (
           <SkillCategory key={index}>
-            <CategoryTitle>{category.title}</CategoryTitle>
+            <CategoryHeader>
+              <IconWrapper>{category.icon}</IconWrapper>
+              <CategoryTitle>{category.title}</CategoryTitle>
+            </CategoryHeader>
             <SkillsList>
               {category.skills.map((skill, skillIndex) => (
                 <SkillItem key={skillIndex}>
@@ -43,62 +51,115 @@ const Skills = () => {
 
 const SkillsContainer = styled.div`
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px;
 `;
 
 const SkillsGrid = styled.div`
+  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
-  margin-top: 40px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 0 15px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+`;
+
+const CategoryHeader = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+`;
+
+const IconWrapper = styled.div`
+  background: linear-gradient(135deg, #04c2c9 0%, #00a1a7 100%);
+  color: white;
+  width: 35px;
+  height: 35px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 4px 8px rgba(4, 194, 201, 0.2);
+  transition: all 0.3s ease;
+
+  svg {
+    transition: transform 0.3s ease;
+  }
 `;
 
 const SkillCategory = styled.div`
   background: #ffffff;
-  border-radius: 10px;
-  padding: 25px;
+  border-radius: 12px;
+  padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(4, 194, 201, 0.1);
 
   &:hover {
     transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-color: #04c2c9;
+
+    ${IconWrapper} {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(4, 194, 201, 0.3);
+
+      svg {
+        transform: rotate(360deg);
+      }
+    }
   }
 `;
 
 const CategoryTitle = styled.h3`
-  color: #04c2c9;
-  font-size: 18px;
-  margin-bottom: 20px;
+  color: #444649;
+  font-size: 16px;
   font-family: "Raleway";
   font-weight: 600;
-  text-align: center;
+  margin: 0;
 `;
 
 const SkillsList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
+  gap: 8px;
+  padding-left: 47px;
 `;
 
 const SkillItem = styled.div`
   background: #f5f5f5;
-  border-radius: 20px;
-  padding: 8px 16px;
+  border-radius: 15px;
+  padding: 6px 12px;
   transition: all 0.3s ease;
+  border: 1px solid transparent;
 
   &:hover {
-    background: #04c2c9;
-    color: white;
+    background: #ffffff;
+    border-color: #04c2c9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
 `;
 
 const SkillName = styled.span`
   font-family: "Raleway";
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
+  color: #616161;
+
+  ${SkillItem}:hover & {
+    color: #04c2c9;
+  }
 `;
 
 export default Skills; 

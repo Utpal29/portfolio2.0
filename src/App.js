@@ -4,6 +4,8 @@ import Skills from './components/Skills';
 import Card from './components/Card';
 import Patent from './components/Patent';
 import Education from './components/Education';
+import Experience from './components/Experience';
+import Research from './components/Research';
 import { HiChevronDoubleUp } from 'react-icons/hi'
 import { FaLinkedinIn, FaGithub, FaInstagram } from 'react-icons/fa'
 import { AiOutlineArrowRight } from 'react-icons/ai';
@@ -46,12 +48,14 @@ function App() {
 
         <AboutInfoSection>
           <Flex1>
-            <img src='me.jpeg' alt='me' class="me" />
-            <Label> Who's this guy? </Label>
+            <ImageContainer>
+              <img src='me.jpeg' alt='me' />
+            </ImageContainer>
+            <Label>Who's this guy?</Label>
             <Aboutme>
-            Versatile professional with a background in Project Management and Business Analytics, and technical expertise in Java, Python, and SQL. Experienced in Agile development, client-focused delivery, and collaborative team leadership. Demonstrated success in both corporate and academic settings, including Bank of America and data-driven academic projects.
-              <br />
-              <SpanLink onClick={() => scrollToSection(contact)} dest="contact">Let's make something special.</SpanLink>
+              Versatile professional with a background in Project Management and Business Analytics, and technical expertise in Java, Python, and SQL. Experienced in Agile development, client-focused delivery, and collaborative team leadership. Demonstrated success in both corporate and academic settings, including Bank of America and data-driven academic projects.
+              <br /><br />
+              <SpanLink onClick={() => scrollToSection(contact)}>Let's make something special.</SpanLink>
             </Aboutme>
           </Flex1>
           <Flex2>
@@ -61,6 +65,8 @@ function App() {
       </AboutSection>
 
       <Education />
+      
+      <Experience />
 
       <ProjectSection>
         <Header >PROJECTS</Header>
@@ -154,17 +160,7 @@ function App() {
         </PatentSectionInner>
       </PatentSection>
 
-      <ResearchSection>
-        <Header >PUBLISHED RESEARCH PAPER </Header>
-        <HeaderLine />
-
-        <RLabel>
-          Role of Hybrid Optimization in Improving Performance of Sentiment Classification System
-        </RLabel>
-        <Rinfo>
-          A. Shukla, V. Juneja, S. Singh, U. Prajapati, A. Gupta and D. Dhabliya, "Role of Hybrid Optimization in Improving Performance of Sentiment Classification System," 2022 Seventh International Conference on Parallel, Distributed and Grid Computing (PDGC), Solan, Himachal Pradesh, India, 2022, pp. 541-546, doi: 10.1109/PDGC56933.2022.10053333.
-        </Rinfo>
-      </ResearchSection>
+      <Research />
 
       <Contact ref={contact}>
         <svg style={{ left: '0', position: 'absolute', top: '0' }} preserveAspectRatio="none" viewBox="0 0 100 102" height="75" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="svgcolor-light">
@@ -387,16 +383,6 @@ color: #616161;
 font-family: "Raleway";
 `
 
-const ResearchSection = styled.section`
-max-width: 1200px;
-margin: 0 auto;
-padding: 50px 0px 180px 0px;
-text-align: left;
-line-height: 18pt;
-color: #616161;
-font-family: "Raleway";
-`
-
 const PatentSectionInner = styled.div`
 padding: 0 10px;
 box-sizing: border-box;
@@ -432,109 +418,12 @@ color: #616161;
 padding: 100px 0 130px 0;
 `
 
-const RLabel = styled.div`
-margin: 20px auto;
-padding: 0 50px;
-font-size: 18pt;
-font-weight: bold;
-font-family: "Raleway";
-color: #616161;
-text-decoration: none;
-
-@media (max-width: 600) {
-    font-size: 12pt;
-  }
-`
-
-const Label = styled.div`
-max-width: 700px;
-margin: 20px 0 15px 0;
-font-size: 18pt;
-font-weight: bold;
-font-family: "Raleway";
-text-align: center;
-
-`
-
-const Rinfo = styled.div`
-padding: 0 50px;
-margin: auto;
-font-size: 12pt;
-font-family: "Raleway";
-color: #616161;
-
-@media (max-width: 600) {
-    font-size: 8pt;
-  }
-`
-
-const Aboutme = styled.div`
-margin: 10px;
-padding: 0 0px 0 0;
-font-size: 12pt;
-font-family: "Raleway";
-color: #616161;
-text-align: left;
-`
-
-const SpanLink = styled.span`
-color: #009ada;
-cursor: pointer;
-
-`
-
-const Flex1 = styled.div`
-  display: flex;
-  padding: 40px;
-  box-sizing: border-box;
-  flex: 1 1 50%;
-  max-height: 100%;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  margin-top: 40px;
-
-  @media (max-width: 600px) {
-    font-size: 8pt;
-  }
-`
-const Flex2 = styled.div`
-  display: flex;
-  flex: 1 1 50%;
-  max-height: 100%;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px;
-  width: 100%;
-  margin-top: 0px;
-
-  @media (max-width: 1200px) {
-    margin-top: 40px;
-  }
-`
-
 const HeaderLine = styled.div`
   background: #444649;
   height: 4px;
   width: 70px;
   margin: 25px auto 100px auto;
   text-align: center;
-`
-
-const AboutInfoSection = styled.section`
-  max-width: 1200px;
-  margin: 0 auto;
-  // padding: 0 50px;
-  align-items: flex-start;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  flex-direction: row;
-
-  @media (max-width: 1200px) {
-    flex-direction: column;
-  }
 `
 
 const Header = styled.div`
@@ -581,6 +470,158 @@ const NameS = styled.span`
   font-family: "Raleway";
   font-weight:600;
   color: #e31b6d;
+`
+
+const ImageContainer = styled.div`
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #04c2c9;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  margin-bottom: 25px;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    border-color: #e31b6d;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+  }
+`
+
+const AboutInfoSection = styled.section`
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: stretch;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 40px;
+  padding: 0 20px;
+
+  @media (max-width: 1200px) {
+    flex-direction: column;
+    padding: 0;
+  }
+`;
+
+const Flex1 = styled.div`
+  display: flex;
+  padding: 20px;
+  box-sizing: border-box;
+  flex: 1;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  @media (max-width: 600px) {
+    padding: 20px;
+  }
+`;
+
+const Flex2 = styled.div`
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 20px;
+
+  @media (max-width: 1200px) {
+    padding: 0 20px;
+  }
+`;
+
+const Label = styled.div`
+max-width: 700px;
+margin: 0 0 20px 0;
+font-size: 24pt;
+font-weight: bold;
+font-family: "Raleway";
+text-align: center;
+color: #444649;
+position: relative;
+
+&:after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: #04c2c9;
+  transition: width 0.3s ease;
+}
+
+&:hover:after {
+  width: 100px;
+}
+`
+
+const Aboutme = styled.div`
+max-width: 600px;
+margin: 0 auto;
+padding: 20px;
+font-size: 14pt;
+font-family: "Raleway";
+color: #616161;
+text-align: center;
+line-height: 1.6;
+background: rgba(4, 194, 201, 0.05);
+border-radius: 15px;
+position: relative;
+
+&:before {
+  content: '"';
+  position: absolute;
+  top: -20px;
+  left: 20px;
+  font-size: 60pt;
+  color: #04c2c9;
+  opacity: 0.2;
+  font-family: Georgia, serif;
+}
+`
+
+const SpanLink = styled.span`
+color: #04c2c9;
+cursor: pointer;
+font-weight: 600;
+position: relative;
+transition: all 0.3s ease;
+
+&:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #04c2c9;
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease;
+}
+
+&:hover {
+  color: #e31b6d;
+  &:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+    background-color: #e31b6d;
+  }
+}
 `
 
 export default App;

@@ -50,7 +50,7 @@ const Education = () => {
 
 const EducationSection = styled.section`
   padding: 100px 0;
-  background: #fff;
+  background: #f5f5f5;
   width: 100%;
 `;
 
@@ -87,13 +87,15 @@ const EducationGrid = styled.div`
 
 const EducationCard = styled.div`
   padding: 30px;
-  background: #f5f5f5;
+  background: #ffffff;
   border-radius: 10px;
   transition: transform 0.3s ease;
   border-left: 4px solid #04c2c9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
   &:hover {
     transform: translateX(10px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   }
 `;
 
