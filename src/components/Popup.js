@@ -10,100 +10,46 @@ const Popup = ({ open, onClose, name, tech, pimage, info, link, git }) => {
   var isTrueSet = (link === 'true')
 
   return (
-    <div onClick={onClose}>
+    <PopupContainer onClick={onClose}>
       <Overlay />
       <Modal onClick={e => e.stopPropagation()}>
+        <CloseButton onClick={onClose}>
+          <AiOutlineClose />
+        </CloseButton>
+        
+        <ModalContent>
+          <Mimg style={{ backgroundImage: `url(${pimage})` }} />
+          <Minfo>
+            <Title>{name}</Title>
+            <Tag>{tech}</Tag>
+            <Detail>{info}</Detail>
 
-        <Mimg style={{ backgroundImage: `url(${pimage})` }} />
-        <Minfo>
-          <Title> {name} </Title>
-          <Tag>{tech}</Tag>
-          <Detail>{info}</Detail>
-
-          {isTrueSet &&
-            <Mbtn href={`${git}`} target="_blank" rel="noopener noreferrer">
-              <Mbtninner>
-                <IoMdOpen style={{
-                  fontSize: '11pt',
-                  left: '-10px',
-                  position: 'relative',
-                  verticalAlign: 'middle',
-                }} />
-                VIEW SITE
-              </Mbtninner>
-            </Mbtn>
-          }
-
-        </Minfo>
-        <AiOutlineClose style={{
-          right: '25px',
-          bottom: '25px',
-          color: '#bbb',
-          cursor: 'pointer',
-          fontSize: '20pt',
-          fontWeight: '800',
-          position: 'absolute',
-        }} onClick={onClose} />
-
+            {isTrueSet && (
+              <Mbtn href={`${git}`} target="_blank" rel="noopener noreferrer">
+                <Mbtninner>
+                  <IoMdOpen />
+                  <span>VIEW SITE</span>
+                </Mbtninner>
+              </Mbtn>
+            )}
+          </Minfo>
+        </ModalContent>
       </Modal>
-    </div>
+    </PopupContainer>
   )
 }
 
-const Mimg = styled.div`
-width: 700px;
-height: 450px;
-background: url(p.jpg) center center/cover;
-margin: 0 auto;
-`
-
-const Minfo = styled.div`
-padding: 35px 60px 90px 25px;
-border-top: 3px solid #1b242f;
-box-sizing: border-box;
-color: #444;
-font-family: "Raleway";
-`
-
-const Title = styled.div`
-font-size: 22pt;
-line-height: 30pt;
-font-weight: bold;
-`
-
-const Tag = styled.div`
-font-size: 11pt;
-border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-color: #c0c0c0;
-font-weight: 300;
-padding-bottom: 15px;
-`
-
-const Detail = styled.div`
-font-size: 11pt;
-line-height: 18pt;
-margin-top: 15px;
-`
-
-const Mbtn = styled.a`
-color: inherit;
-text-decoration: none;
-`
-
-const Mbtninner = styled.div`
-pointer-events: initial;
-visibility: visible;
-left: 25px;
-background: #e31b6d;
-border: 0;
-bottom: 20px;
-color: #fff;
-cursor: pointer;
-font-size: 10pt;
-font-weight: 600;
-padding: 11px 30px;
-position: absolute;
-transition: all 0.5s;
+const PopupContainer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
 `
 
 const Overlay = styled.div`
@@ -112,29 +58,156 @@ const Overlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  transition: opacity 0.3s;
-  z-index: 4;
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(5px);
 `
 
 const Modal = styled.div`
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: relative;
   background: #fff;
-  z-index: 4;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease;
 
-  max-width: 700px;
-  opacity: 1;
-  height: initial;
-  align-items: flex-start;
-  background: #fff;
-  box-shadow: 0 0 10px rgb(0 0 0 / 40%);
-  box-sizing: border-box;
-  color: #333;
-  text-align: left;
-  transition: all 0.3s;
+  @keyframes modalFadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 768px) {
+    max-height: 95vh;
+  }
+`
+
+const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+`
+
+const Mimg = styled.div`
+  width: 100%;
+  height: 300px;
+  background: url(p.jpg) center center/cover;
+  border-radius: 15px 15px 0 0;
+
+  @media (min-width: 768px) {
+    width: 50%;
+    height: auto;
+    border-radius: 15px 0 0 15px;
+  }
+`
+
+const Minfo = styled.div`
+  padding: 30px;
+  flex: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  @media (max-width: 768px) {
+    padding: 20px;
+  }
+`
+
+const Title = styled.div`
+  font-size: 24px;
+  font-weight: 600;
+  color: #444649;
+  line-height: 1.4;
+  margin-bottom: 5px;
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+  }
+`
+
+const Tag = styled.div`
+  font-size: 14px;
+  color: #04c2c9;
+  font-weight: 500;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`
+
+const Detail = styled.div`
+  font-size: 14px;
+  line-height: 1.6;
+  color: #616161;
+  flex: 1;
+`
+
+const Mbtn = styled.a`
+  text-decoration: none;
+  margin-top: auto;
+`
+
+const Mbtninner = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #04c2c9;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: #e31b6d;
+    transform: translateY(-2px);
+  }
+
+  svg {
+    font-size: 18px;
+  }
+`
+
+const CloseButton = styled.button`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+  svg {
+    font-size: 20px;
+    color: #444649;
+  }
+
+  &:hover {
+    background: #e31b6d;
+    transform: rotate(90deg);
+
+    svg {
+      color: #fff;
+    }
+  }
 `
 
 export default Popup
