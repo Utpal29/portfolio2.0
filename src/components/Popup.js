@@ -118,6 +118,7 @@ const Minfo = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
+  font-family: "Raleway";
 
   @media (max-width: 768px) {
     padding: 20px;
@@ -130,6 +131,7 @@ const Title = styled.div`
   color: #444649;
   line-height: 1.4;
   margin-bottom: 5px;
+  font-family: "Raleway";
 
   @media (max-width: 768px) {
     font-size: 20px;
@@ -142,13 +144,20 @@ const Tag = styled.div`
   font-weight: 500;
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  font-family: "Raleway";
 `
 
 const Detail = styled.div`
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.8;
   color: #616161;
   flex: 1;
+  font-family: "Raleway";
+  white-space: pre-line;
+
+  @media (max-width: 768px) {
+    font-size: 13px;
+  }
 `
 
 const Mbtn = styled.a`
@@ -167,6 +176,7 @@ const Mbtninner = styled.div`
   font-size: 14px;
   font-weight: 500;
   transition: all 0.3s ease;
+  font-family: "Raleway";
 
   &:hover {
     background: #e31b6d;

@@ -73,6 +73,21 @@ function App() {
         <HeaderLine />
         <Gallery>
           <Card
+            name="Coinly - Personal Finance Tracker"
+            tech="React, Vite, Tailwind CSS, Supabase"
+            pimage="coinly.png"
+            info="A modern, user-friendly personal finance tracking application that helps users manage their income and expenses with ease. Features include:
+            • Dashboard Overview: Quick snapshot of financial status
+            • Transaction Management: Add, edit, and delete income/expense transactions
+            • Calendar View: Visualize daily income and expenses
+            • Insights: Analyze spending patterns and financial trends
+            • User Authentication: Secure login and signup system
+            • Responsive Design: Works seamlessly on all devices
+            "
+            link="true"
+            git="https://github.com/Utpal29/coinly"
+          />
+          <Card
             name="AllMart eCommerce Website"
             tech="react, Nodejs"
             pimage="p1.png"
@@ -110,14 +125,6 @@ function App() {
             Trained the decision tree model to make predictions on whether arrests will be made or not. Its accuracy is measured and cross-validated against the present data."
             link="false"
             git="https://github.com/"
-          />
-          <Card
-            name="Weather app"
-            tech="JavaScript"
-            pimage="p5.png"
-            info="Weather-app is a clean and clear web app that allows you to quickly see the weather for any given location.Because of its small footprint, Weather-app could be used on a site by embedding in an iframe tag, or by a link on a button. Weather-app could also be deployed to a mobile device for quickly checking local temperature etc, as the small size minimises data use."
-            link="true"
-            git="https://github.com/Utpal29/Weather-app/"
           />
         </Gallery>
       </ProjectSection>
