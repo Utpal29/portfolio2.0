@@ -1,33 +1,60 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiFileText } from 'react-icons/fi';
+import { FiFileText, FiExternalLink } from 'react-icons/fi';
 
-const Patent = ({ title, applicationId, status, focus }) => {
+const Patent = ({ title, applicationId, status, focus, image, link }) => {
+  const [filed, role] = String(status).split('•').map((s) => s && s.trim());
+  const previewSrc = image && image.startsWith('public/') ? image.replace(/^public\//, '/') : image;
+
   return (
     <Card>
-      <IconCircle>
-        <FiFileText />
-      </IconCircle>
+      {previewSrc ? (
+        <Thumb as={link ? 'a' : 'div'}
+          href={link || undefined}
+          target={link ? '_blank' : undefined}
+          rel={link ? 'noopener noreferrer' : undefined}
+          aria-label={link ? `Open patent details for ${title}` : undefined}
+        >
+          <ThumbImg src={previewSrc} alt={`${title} — patent visual`} />
+        </Thumb>
+      ) : (
+        <IconCircle aria-hidden>
+          <FiFileText />
+        </IconCircle>
+      )}
       <Content>
-        <Title>{title}</Title>
-        <Metadata>
-          <Badge>{applicationId}</Badge>
-          <MetaText>{status}</MetaText>
-        </Metadata>
+        {link ? (
+          <Title as="a" href={link} target="_blank" rel="noopener noreferrer">{title}</Title>
+        ) : (
+          <Title>{title}</Title>
+        )}
+        <ChipRow>
+          <Chip title="Application ID">{applicationId}</Chip>
+          {filed && <Chip>{filed}</Chip>}
+          {role && <Chip variant="muted">{role}</Chip>}
+        </ChipRow>
         <Summary>{focus}</Summary>
+        {link && (
+          <Actions>
+            <LinkButton href={link} target="_blank" rel="noopener noreferrer">
+              <FiExternalLink />
+              <span>View on WIPO</span>
+            </LinkButton>
+          </Actions>
+        )}
       </Content>
     </Card>
   );
 };
 
 const Card = styled.article`
-  background: var(--surface-primary);
+  background: var(--surface-elevated);
   border-radius: 18px;
   border: 1px solid var(--border-subtle);
-  padding: 24px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   min-width: 260px;
   box-shadow: var(--shadow-soft);
 `;
@@ -44,6 +71,22 @@ const IconCircle = styled.span`
   font-size: 1.3rem;
 `;
 
+const Thumb = styled.a`
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-primary);
+`;
+
+const ThumbImg = styled.img`
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+`;
+
 const Content = styled.div`
   display: flex;
   flex-direction: column;
@@ -55,27 +98,26 @@ const Title = styled.h3`
   font-size: 1.05rem;
   font-weight: 600;
   color: var(--text-strong);
+  text-decoration: none;
+  &:hover {
+    color: var(--accent);
+  }
 `;
 
-const Metadata = styled.div`
+const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
+  gap: 8px;
 `;
 
-const Badge = styled.span`
-  background: var(--surface-elevated);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 0.78rem;
-  color: var(--text-strong);
+const Chip = styled.span`
+  background: ${({ variant }) => (variant === 'muted' ? 'var(--surface-primary)' : 'var(--accent)')};
+  color: ${({ variant }) => (variant === 'muted' ? 'var(--text-muted)' : 'var(--accent-contrast)')};
   border: 1px solid var(--border-subtle);
-`;
-
-const MetaText = styled.span`
-  color: var(--text-muted);
-  font-size: 0.85rem;
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  font-weight: 600;
 `;
 
 const Summary = styled.p`
@@ -83,6 +125,26 @@ const Summary = styled.p`
   color: var(--text-muted);
   font-size: 0.95rem;
   line-height: 1.6;
+`;
+
+const Actions = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 4px;
+`;
+
+const LinkButton = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  padding: 6px 0;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default Patent;

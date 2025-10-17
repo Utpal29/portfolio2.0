@@ -83,7 +83,11 @@ function App() {
               )}
             </HeroMeta>
             <CTAGroup>
-              <PrimaryCTA href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+              <PrimaryCTA
+                href="https://drive.google.com/file/d/1oxVEK9ZAXX3d2J8vZdzjTZLKQfn2S6V1/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FiFileText />
                 <span>Download Resume</span>
               </PrimaryCTA>
@@ -132,7 +136,7 @@ function App() {
           </ProjectGrid>
         </Section>
 
-        <Experience />
+        <Experience ref={experienceRef} />
         <Education />
 
         <PublicationsSection>
@@ -210,9 +214,10 @@ const Navigation = styled.header`
   position: sticky;
   top: 0;
   z-index: 999;
-  backdrop-filter: blur(12px);
-  background: rgba(10, 18, 40, 0.85);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(14px);
+  background: linear-gradient(135deg, rgba(10, 18, 40, 0.92), rgba(10, 18, 40, 0.78));
+  border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 20px 45px rgba(8, 15, 35, 0.35);
 `;
 
 const NavContent = styled.div`
@@ -227,54 +232,93 @@ const NavContent = styled.div`
 const Brand = styled.button.attrs({
   type: 'button'
 })`
-  background: none;
-  border: none;
+  background: rgba(20, 184, 166, 0.12);
+  border: 1px solid transparent;
   color: #fff;
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
   font-size: 1.1rem;
   cursor: pointer;
+  padding: 10px 16px;
+  border-radius: 14px;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(20, 184, 166, 0.2);
+    border-color: var(--accent);
+    transform: translateY(-1px);
+  }
 `;
 
 const MobileToggle = styled.button.attrs({
   type: 'button'
 })`
   display: none;
-  background: none;
-  border: none;
+  background: rgba(148, 163, 184, 0.12);
+  border: 1px solid transparent;
   color: #fff;
   font-size: 1.6rem;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background 0.3s ease, border-color 0.3s ease;
 
   @media (max-width: 768px) {
     display: inline-flex;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: rgba(20, 184, 166, 0.18);
+    border-color: rgba(20, 184, 166, 0.35);
   }
 `;
 
 const NavLinks = styled.nav`
   display: flex;
-  gap: 24px;
+  align-items: center;
+  gap: 16px;
 
   button {
-    background: none;
-    border: none;
+    position: relative;
+    background: rgba(148, 163, 184, 0.12);
+    border: 1px solid transparent;
     color: #fff;
     font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
+    padding: 10px 18px;
+    border-radius: 999px;
+    transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+
+    &:hover,
+    &:focus-visible {
+      background: rgba(20, 184, 166, 0.18);
+      border-color: rgba(20, 184, 166, 0.5);
+      color: var(--accent);
+      transform: translateY(-1px);
+    }
   }
 
   @media (max-width: 768px) {
     position: absolute;
     top: 64px;
     right: 24px;
-    background: rgba(10, 18, 40, 0.95);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 16px;
+    background: rgba(10, 18, 40, 0.96);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    border-radius: 16px;
+    padding: 18px;
     flex-direction: column;
-    gap: 12px;
+    gap: 14px;
     display: ${({ $open }) => ($open ? 'flex' : 'none')};
+
+    button {
+      width: 100%;
+      justify-content: flex-start;
+      padding: 12px 14px;
+      border-radius: 10px;
+    }
   }
 `;
 
@@ -512,8 +556,17 @@ const PublicationsSection = styled.section`
 
 const PublicationsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1080px) {
+    max-width: 900px;
+    margin: 0 auto;
+  }
 `;
 
 const ResearchBlock = styled.div`

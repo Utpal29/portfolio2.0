@@ -7,10 +7,7 @@ const Skills = () => {
     <SkillsSection>
       {skillGroups.map((group) => (
         <SkillCard key={group.title}>
-          <CardHeader>
-            <CardTitle>{group.title}</CardTitle>
-            <CardSummary>{group.summary}</CardSummary>
-          </CardHeader>
+          <CardTitle>{group.title}</CardTitle>
           <SkillChips>
             {group.skills.map((skill) => (
               <Chip key={skill}>{skill}</Chip>
@@ -30,54 +27,39 @@ const SkillsSection = styled.div`
 `;
 
 const SkillCard = styled.article`
-  background: var(--surface-primary);
+  background: var(--surface-elevated);
   border: 1px solid var(--border-subtle);
-  border-radius: 20px;
-  padding: 28px;
-  box-shadow: var(--shadow-soft);
+  border-radius: 18px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 12px;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-hover);
+    transform: translateY(-4px);
     border-color: var(--accent);
+    box-shadow: var(--shadow-soft);
   }
 `;
 
-const CardHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-`;
-
 const CardTitle = styled.h3`
-  font-family: 'Raleway', sans-serif;
-  font-weight: 600;
-  font-size: 1.1rem;
-  color: var(--text-strong);
   margin: 0;
-`;
-
-const CardSummary = styled.p`
-  margin: 0;
-  color: var(--text-muted);
   font-size: 0.95rem;
-  line-height: 1.6;
+  font-weight: 600;
+  color: var(--text-strong);
 `;
 
 const SkillChips = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 `;
 
 const Chip = styled.span`
-  background: var(--accent-muted);
+  background: var(--accent);
   color: var(--accent-contrast);
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: 999px;
   font-size: 0.85rem;
   font-weight: 500;

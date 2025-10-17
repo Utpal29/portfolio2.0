@@ -1,96 +1,81 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import { portfolioContent } from '../data';
 
-const experiences = [
-  {
-    company: 'Bank of America',
-    title: 'Software Engineer',
-    location: 'Hyderabad, India',
-    period: 'Jul 2023 – Dec 2023',
-    headline: 'Built and hardened loan-origination APIs that process thousands of requests per day.',
-    highlights: [
-      'Improved backend efficiency by 15% by refactoring Spring Boot services and optimizing MySQL queries used across lending journeys.',
-      'Shipped 5+ production features and 50+ automated tests, lifting regression coverage by 30% and stabilizing sprint releases.',
-      'Partnered with product, QA, and design in Agile ceremonies to triage 20+ high-priority issues within SLA.'
-    ]
-  },
-  {
-    company: 'Seneca Food Hackathon',
-    title: 'Event Operations Intern (Team Lead)',
-    location: 'Toronto, Canada',
-    period: 'Jan 2025 – Mar 2025',
-    headline: 'Coordinated delivery for a 1,000+ participant hackathon with data-driven check-ins and reporting.',
-    highlights: [
-      'Led a squad of 8 coordinators, using Kanban dashboards to unblock 50+ student teams ahead of submission deadlines.',
-      'Consolidated analytics for mentors and judges, shortening progress reviews from hours to minutes.',
-      'Formalized communication playbooks that improved stakeholder satisfaction scores by 20% (post-event survey).'
-    ]
-  }
-];
+const Experience = forwardRef((_, ref) => {
+  const items = (portfolioContent.experience || []).map((e) => ({
+    company: e.company,
+    title: e.role,
+    location: e.location,
+    period: e.dates,
+    highlights: e.highlights || [],
+    tech: e.tech || []
+  }));
 
-const Experience = () => {
   return (
-    <Section id="experience">
+    <Section id="experience" ref={ref}>
       <SectionHeading>
         <h2>Experience</h2>
-        <p>Impact-focused highlights from recent engineering and leadership roles.</p>
       </SectionHeading>
       <Timeline>
-        {experiences.map((experience) => (
-          <TimelineItem key={experience.company}>
+        {items.map((exp) => (
+          <TimelineItem key={`${exp.company}-${exp.period}`}>
             <Dot />
             <Card>
               <Meta>
-                <Role>{experience.title}</Role>
-                <Company>{experience.company}</Company>
+                <HeaderRow>
+                  <Role>{exp.title}</Role>
+                  <CompanyBadge>{exp.company}</CompanyBadge>
+                </HeaderRow>
                 <MetaRow>
-                  <MetaTag>{experience.location}</MetaTag>
-                  <MetaTag>{experience.period}</MetaTag>
+                  {exp.location && <MetaTag>{exp.location}</MetaTag>}
+                  {exp.period && <MetaTag>{exp.period}</MetaTag>}
                 </MetaRow>
               </Meta>
-              <Headline>{experience.headline}</Headline>
-              <Highlights>
-                {experience.highlights.map((highlight) => (
-                  <li key={highlight}>{highlight}</li>
-                ))}
-              </Highlights>
+              {exp.highlights && exp.highlights.length > 0 && (
+                <Highlights>
+                  {exp.highlights.map((h) => (
+                    <li key={h}>{h}</li>
+                  ))}
+                </Highlights>
+              )}
+              {exp.tech && exp.tech.length > 0 && (
+                <TechList>
+                  {exp.tech.slice(0, 6).map((t) => (
+                    <TechChip key={t}>{t}</TechChip>
+                  ))}
+                </TechList>
+              )}
             </Card>
           </TimelineItem>
         ))}
       </Timeline>
     </Section>
   );
-};
+});
+
+Experience.displayName = 'Experience';
 
 const Section = styled.section`
-  padding: 120px 0;
-  background: var(--page-bg);
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 24px;
 `;
 
 const SectionHeading = styled.div`
-  max-width: 760px;
-  margin: 0 auto 64px auto;
+  margin: 0 0 24px 0;
   text-align: center;
-  color: var(--text-muted);
-
+  
   h2 {
-    font-size: 2.2rem;
+    margin: 0;
+    font-size: 1.9rem;
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
-    color: var(--text-strong);
-    margin-bottom: 12px;
-  }
-
-  p {
-    margin: 0;
-    font-size: 1rem;
-    line-height: 1.7;
   }
 `;
 
 const Timeline = styled.div`
   position: relative;
-  max-width: 960px;
   margin: 0 auto;
   padding-left: 32px;
 
@@ -101,7 +86,7 @@ const Timeline = styled.div`
     top: 0;
     bottom: 0;
     width: 2px;
-    background: var(--border-strong);
+    background: var(--border-subtle);
   }
 
   @media (max-width: 600px) {
@@ -115,7 +100,7 @@ const Timeline = styled.div`
 
 const TimelineItem = styled.article`
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
   padding-left: 24px;
 `;
 
@@ -132,59 +117,62 @@ const Dot = styled.span`
 `;
 
 const Card = styled.div`
-  background: var(--surface-primary);
+  background: var(--surface-elevated);
   border-radius: 18px;
   border: 1px solid var(--border-subtle);
-  padding: 28px 32px;
+  padding: 24px;
   box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 
   @media (max-width: 600px) {
-    padding: 24px;
+    padding: 20px;
   }
 `;
 
 const Meta = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;
 
 const Role = styled.h3`
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--text-strong);
 `;
 
-const Company = styled.span`
-  font-size: 1rem;
-  color: var(--accent);
-  font-weight: 600;
+const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+`;
+
+const CompanyBadge = styled.span`
+  background: var(--accent);
+  color: var(--accent-contrast);
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-weight: 700;
 `;
 
 const MetaRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 `;
 
 const MetaTag = styled.span`
-  background: var(--surface-elevated);
+  background: var(--surface-primary);
   color: var(--text-muted);
   font-size: 0.85rem;
   padding: 6px 12px;
   border-radius: 999px;
   border: 1px solid var(--border-subtle);
-`;
-
-const Headline = styled.p`
-  margin: 0;
-  font-size: 1rem;
-  color: var(--text-strong);
-  line-height: 1.6;
 `;
 
 const Highlights = styled.ul`
@@ -196,8 +184,23 @@ const Highlights = styled.ul`
   color: var(--text-muted);
 
   li {
-    line-height: 1.6;
+    line-height: 1.55;
   }
+`;
+
+const TechList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const TechChip = styled.span`
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
 `;
 
 export default Experience;

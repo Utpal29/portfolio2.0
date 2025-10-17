@@ -34,30 +34,30 @@ const Education = () => {
       <SectionHeading>
         <h2>Education</h2>
       </SectionHeading>
-      <Grid>
+      <EduList>
         {educationHistory.map((entry) => (
-          <Card key={entry.degree}>
-            <HeaderRow>
-              <Degree>{entry.degree}</Degree>
-              <Badge>{entry.gpa}</Badge>
-            </HeaderRow>
-            <SchoolRow>
-              <School>{entry.school}</School>
-              <TagRow>
-                <Tag>{entry.location}</Tag>
-                <Tag>{entry.period}</Tag>
-              </TagRow>
-            </SchoolRow>
-            {entry.highlights?.length > 0 && (
-              <HighlightList>
-                {entry.highlights.map((highlight) => (
-                  <li key={highlight}>{highlight}</li>
-                ))}
-              </HighlightList>
-            )}
-          </Card>
+          <EduItem key={entry.degree}>
+            <Degree>{entry.degree}</Degree>
+            <School>{entry.school}</School>
+            <MetaList>
+              <MetaItem>
+                <MetaLabel>Location</MetaLabel>
+                <MetaValue>{entry.location}</MetaValue>
+              </MetaItem>
+              <MetaItem>
+                <MetaLabel>Years</MetaLabel>
+                <MetaValue>{entry.period}</MetaValue>
+              </MetaItem>
+              {entry.gpa && (
+                <MetaItem>
+                  <MetaLabel>GPA</MetaLabel>
+                  <MetaValue>{entry.gpa.replace(/^GPA\s*/i, '')}</MetaValue>
+                </MetaItem>
+              )}
+            </MetaList>
+          </EduItem>
         ))}
-      </Grid>
+      </EduList>
     </Section>
   );
 };
@@ -80,86 +80,68 @@ const SectionHeading = styled.div`
   }
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 24px;
-`;
-
-const Card = styled.article`
-  background: var(--surface-elevated);
-  border-radius: 18px;
-  padding: 24px;
-  border: 1px solid var(--border-subtle);
-  box-shadow: var(--shadow-soft);
+const EduList = styled.div`
+  max-width: 900px;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-`;
-
-const HeaderRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
   gap: 16px;
 `;
 
+const EduItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 20px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+`;
+
+/* removed TopRow layout; degree and school now stack for clearer hierarchy */
+
 const Degree = styled.h3`
   margin: 0;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   color: var(--text-strong);
 `;
 
-const Badge = styled.span`
-  background: var(--accent);
-  color: var(--accent-contrast);
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-size: 0.85rem;
-  font-weight: 700;
-`;
-
-const SchoolRow = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-`;
+/* removed old card/gpa badge styles for a lean list */
 
 const School = styled.p`
   margin: 0;
-  font-size: 1rem;
-  color: var(--text-strong);
+  font-size: 0.95rem;
+  color: var(--accent);
   font-weight: 600;
 `;
 
-const TagRow = styled.div`
+const MetaList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 12px 18px;
+  margin-top: 2px;
 `;
 
-const Tag = styled.span`
-  background: var(--surface-primary);
+const MetaItem = styled.div`
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
+`;
+
+const MetaLabel = styled.span`
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
   color: var(--text-muted);
-  font-size: 0.85rem;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-subtle);
 `;
 
-const HighlightList = styled.ul`
-  margin: 0;
-  padding-left: 18px;
-  color: var(--text-muted);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  li {
-    line-height: 1.55;
-  }
+const MetaValue = styled.span`
+  font-size: 0.9rem;
+  color: var(--text-strong);
 `;
+
+/* description list removed */
 
 export default Education;

@@ -1,22 +1,30 @@
-export const skillGroups = [
+import { portfolioContent } from './content';
+
+const skillMeta = [
   {
-    title: 'Languages & Frameworks',
-    summary: 'Production-ready stacks for APIs and web apps',
-    skills: ['Java', 'JavaScript', 'Python', 'SQL', 'Spring Boot', 'React', 'Node.js']
+    key: 'Backend',
+    title: 'Backend Engineering',
+    summary: 'Spring Boot, REST, and data layers built for clarity and resilience.'
   },
   {
-    title: 'Frontend Engineering',
-    summary: 'Interfaces that stay fast, accessible, and on-brand',
-    skills: ['React Router', 'Styled Components', 'Tailwind CSS', 'Recharts', 'Responsive Design']
+    key: 'Frontend',
+    title: 'Frontend Experience',
+    summary: 'Modern React stacks with crisp, accessible, and responsive UIs.'
   },
   {
-    title: 'Backend & Cloud',
-    summary: 'Reliable services and data pipelines that scale with teams',
-    skills: ['REST API Design', 'Supabase', 'MySQL', 'MongoDB', 'Vercel', 'Linux']
+    key: 'Data & Analytics',
+    title: 'Data & Analytics',
+    summary: 'ETL, visualization, and ML foundations that turn raw data into insight.'
   },
   {
-    title: 'Collaboration & Delivery',
-    summary: 'Shipping quality software with disciplined workflows',
-    skills: ['Git & GitHub', 'CI/CD Practices', 'JUnit & Testing', 'Agile (Scrum/Kanban)', 'Team Leadership']
+    key: 'DevOps & Tooling',
+    title: 'DevOps & Tooling',
+    summary: 'Delivery pipelines, hosting, and developer tooling that keep releases smooth.'
   }
 ];
+
+export const skillGroups = skillMeta.map(({ key, title, summary }) => ({
+  title,
+  summary,
+  skills: portfolioContent.skills[key] || []
+}));

@@ -8,18 +8,23 @@ const Research = () => {
     <List>
       {researchPapers.map((paper) => (
         <PaperCard key={paper.title}>
-          <IconCircle>
+          <IconCircle aria-hidden>
             <FiBookOpen />
           </IconCircle>
           <Content>
             <Title>{paper.title}</Title>
-            <Meta>{paper.venue}</Meta>
+            <ChipRow>
+              <Chip title="Venue">{paper.venue}</Chip>
+              {paper.year && <Chip>{paper.year}</Chip>}
+              {paper.doi && <Chip variant="muted">DOI: {paper.doi}</Chip>}
+            </ChipRow>
             <Summary>{paper.summary}</Summary>
-            <Contribution>{paper.contribution}</Contribution>
-            <Action href={paper.link} target="_blank" rel="noopener noreferrer">
-              <FiExternalLink />
-              <span>View publication</span>
-            </Action>
+            <Actions>
+              <Action href={paper.link} target="_blank" rel="noopener noreferrer">
+                <FiExternalLink />
+                <span>IEEE Xplore</span>
+              </Action>
+            </Actions>
           </Content>
         </PaperCard>
       ))}
@@ -34,13 +39,13 @@ const List = styled.div`
 `;
 
 const PaperCard = styled.article`
-  background: var(--surface-primary);
+  background: var(--surface-elevated);
   border-radius: 18px;
   border: 1px solid var(--border-subtle);
-  padding: 28px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   box-shadow: var(--shadow-soft);
 `;
 
@@ -69,10 +74,20 @@ const Title = styled.h3`
   color: var(--text-strong);
 `;
 
-const Meta = styled.span`
-  color: var(--accent);
+const ChipRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const Chip = styled.span`
+  background: ${({ variant }) => (variant === 'muted' ? 'var(--surface-primary)' : 'var(--accent)')};
+  color: ${({ variant }) => (variant === 'muted' ? 'var(--text-muted)' : 'var(--accent-contrast)')};
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  padding: 6px 10px;
+  font-size: 0.8rem;
   font-weight: 600;
-  font-size: 0.9rem;
 `;
 
 const Summary = styled.p`
@@ -82,11 +97,9 @@ const Summary = styled.p`
   line-height: 1.6;
 `;
 
-const Contribution = styled.p`
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
+const Actions = styled.div`
+  display: flex;
+  gap: 10px;
 `;
 
 const Action = styled.a`
