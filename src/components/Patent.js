@@ -55,8 +55,13 @@ const Card = styled.article`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 260px;
+  min-width: 0;
   box-shadow: var(--shadow-soft);
+
+  @media (max-width: 480px) {
+    padding: 18px;
+    gap: 10px;
+  }
 `;
 
 const IconCircle = styled.span`
@@ -83,7 +88,7 @@ const Thumb = styled.a`
 const ThumbImg = styled.img`
   display: block;
   width: 100%;
-  height: 140px;
+  height: clamp(140px, 40vw, 160px);
   object-fit: cover;
 `;
 
@@ -95,7 +100,7 @@ const Content = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 1.05rem;
+  font-size: clamp(1rem, 4.2vw, 1.05rem);
   font-weight: 600;
   color: var(--text-strong);
   text-decoration: none;
@@ -108,6 +113,10 @@ const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Chip = styled.span`
@@ -123,7 +132,7 @@ const Chip = styled.span`
 const Summary = styled.p`
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   line-height: 1.6;
 `;
 
@@ -131,6 +140,10 @@ const Actions = styled.div`
   display: flex;
   justify-content: flex-start;
   margin-top: 4px;
+
+  @media (max-width: 480px) {
+    justify-content: center;
+  }
 `;
 
 const LinkButton = styled.a`

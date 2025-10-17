@@ -65,7 +65,7 @@ const Education = () => {
 const Section = styled.section`
   max-width: 1100px;
   margin: 0 auto;
-  padding: 56px 24px;
+  padding: clamp(48px, 9vw, 72px) clamp(16px, 6vw, 24px);
 `;
 
 const SectionHeading = styled.div`
@@ -74,7 +74,7 @@ const SectionHeading = styled.div`
 
   h2 {
     margin: 0;
-    font-size: 1.9rem;
+    font-size: clamp(1.6rem, 5vw, 1.9rem);
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
   }
@@ -92,7 +92,7 @@ const EduItem = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 20px 20px;
+  padding: clamp(20px, 6vw, 28px);
   background: var(--surface-elevated);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
@@ -103,7 +103,7 @@ const EduItem = styled.div`
 
 const Degree = styled.h3`
   margin: 0;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 4.2vw, 1.1rem);
   font-weight: 600;
   color: var(--text-strong);
 `;
@@ -122,12 +122,21 @@ const MetaList = styled.div`
   flex-wrap: wrap;
   gap: 12px 18px;
   margin-top: 2px;
+
+  @media (max-width: 540px) {
+    gap: 10px 14px;
+  }
 `;
 
 const MetaItem = styled.div`
   display: inline-flex;
   align-items: baseline;
   gap: 6px;
+
+  @media (max-width: 540px) {
+    align-items: center;
+    gap: 4px;
+  }
 `;
 
 const MetaLabel = styled.span`

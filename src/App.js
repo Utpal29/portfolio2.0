@@ -106,7 +106,9 @@ function App() {
             </Stats>
           </HeroContent>
           <HeroImage>
+            <HeroGlowTop aria-hidden="true" />
             <img src="me.jpeg" alt="Utpal Prajapati at graduation" />
+            <HeroGlowBottom aria-hidden="true" />
           </HeroImage>
         </HeroSection>
 
@@ -198,7 +200,7 @@ const Page = styled.div`
 const SkipLink = styled.a`
   position: absolute;
   top: -40px;
-  left: 0;
+  left: clamp(0px, 2vw, 16px);
   padding: 12px 16px;
   background: var(--accent);
   color: var(--accent-contrast);
@@ -218,6 +220,11 @@ const Navigation = styled.header`
   background: linear-gradient(135deg, rgba(10, 18, 40, 0.92), rgba(10, 18, 40, 0.78));
   border-bottom: 1px solid rgba(148, 163, 184, 0.18);
   box-shadow: 0 20px 45px rgba(8, 15, 35, 0.35);
+
+  @media (max-width: 768px) {
+    border-bottom: 1px solid rgba(148, 163, 184, 0.15);
+    box-shadow: 0 12px 30px rgba(8, 15, 35, 0.25);
+  }
 `;
 
 const NavContent = styled.div`
@@ -227,6 +234,15 @@ const NavContent = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 18px 24px;
+  position: relative;
+
+  @media (max-width: 768px) {
+    padding: 16px 20px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 14px 16px;
+  }
 `;
 
 const Brand = styled.button.attrs({
@@ -237,7 +253,7 @@ const Brand = styled.button.attrs({
   color: #fff;
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: clamp(1rem, 3.3vw, 1.1rem);
   cursor: pointer;
   padding: 10px 16px;
   border-radius: 14px;
@@ -266,6 +282,7 @@ const MobileToggle = styled.button.attrs({
 
   @media (max-width: 768px) {
     display: inline-flex;
+    font-size: 1.5rem;
   }
 
   &:hover,
@@ -303,8 +320,8 @@ const NavLinks = styled.nav`
 
   @media (max-width: 768px) {
     position: absolute;
-    top: 64px;
-    right: 24px;
+    top: calc(100% + 12px);
+    right: 20px;
     background: rgba(10, 18, 40, 0.96);
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 16px;
@@ -312,13 +329,22 @@ const NavLinks = styled.nav`
     flex-direction: column;
     gap: 14px;
     display: ${({ $open }) => ($open ? 'flex' : 'none')};
+    width: min(260px, calc(100vw - 64px));
+    box-shadow: 0 18px 40px rgba(8, 15, 35, 0.45);
 
     button {
       width: 100%;
       justify-content: flex-start;
       padding: 12px 14px;
       border-radius: 10px;
+      text-align: left;
     }
+  }
+
+  @media (max-width: 480px) {
+    right: 16px;
+    left: 16px;
+    width: auto;
   }
 `;
 
@@ -334,14 +360,40 @@ const HeroSection = styled.section`
   gap: 32px;
   max-width: 1100px;
   margin: 0 auto;
-  padding: 64px 24px 56px 24px;
+  padding: clamp(48px, 10vw, 64px) 24px 56px;
   align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: 1fr;
+  }
+
+  @media (max-width: 768px) {
+    padding: 56px 20px 48px;
+    gap: 28px;
+  }
+
+  @media (max-width: 600px) {
+    padding: 48px 18px;
+  }
+
+  @media (max-width: 480px) {
+    padding: 44px 16px;
+    gap: 24px;
+  }
 `;
 
 const HeroContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 24px;
+  width: 100%;
+  max-width: 620px;
+
+  @media (max-width: 600px) {
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+  }
 `;
 
 const HeroLabel = styled.span`
@@ -380,6 +432,10 @@ const HeroMeta = styled.ul`
   &:empty {
     display: none;
   }
+
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
 `;
 
 const HeroMetaItem = styled.li`
@@ -397,6 +453,15 @@ const CTAGroup = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    width: 100%;
+  }
 `;
 
 const BaseCTA = styled.a`
@@ -411,6 +476,11 @@ const BaseCTA = styled.a`
   border: none;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+
+  @media (max-width: 480px) {
+    justify-content: center;
+    width: 100%;
+  }
 `;
 
 const PrimaryCTA = styled(BaseCTA)`
@@ -439,6 +509,15 @@ const Stats = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   gap: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  @media (max-width: 360px) {
+    grid-template-columns: 1fr;
+  }
 `;
 
 const StatCard = styled.div`
@@ -449,6 +528,11 @@ const StatCard = styled.div`
   display: flex;
   flex-direction: column;
   gap: 6px;
+
+  @media (max-width: 600px) {
+    align-items: center;
+    text-align: center;
+  }
 `;
 
 const StatValue = styled.span`
@@ -463,21 +547,60 @@ const StatLabel = styled.span`
 `;
 
 const HeroImage = styled.div`
+  position: relative;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  padding: clamp(12px, 4vw, 24px);
+  overflow: visible;
+
+  @media (min-width: 901px) {
+    align-self: stretch;
+    justify-content: center;
+  }
 
   img {
-    width: min(320px, 100%);
+    position: relative;
+    z-index: 1;
+    width: min(300px, 100%);
     border-radius: 24px;
-    border: 1px solid #22303C;
+    border: 1px solid #22303c;
     box-shadow: var(--shadow-hover);
   }
+
+  @media (max-width: 600px) {
+    order: -1;
+    padding: clamp(8px, 3vw, 16px);
+  }
+`;
+
+const HeroGlowBar = styled.span`
+  position: absolute;
+  inset: auto 10%;
+  height: clamp(80px, 12vw, 110px);
+  z-index: 0;
+  filter: blur(40px);
+  opacity: 0.55;
+  pointer-events: none;
+`;
+
+const HeroGlowTop = styled(HeroGlowBar)`
+  top: -16px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(78, 205, 196, 0.25), rgba(20, 184, 166, 0.65));
+`;
+
+const HeroGlowBottom = styled(HeroGlowBar)`
+  bottom: -24px;
+  border-radius: 999px;
+  background: linear-gradient(225deg, rgba(45, 212, 191, 0.45), rgba(37, 99, 235, 0.25));
 `;
 
 const Section = styled.section`
   max-width: 1100px;
   margin: 0 auto;
-  padding: 56px 24px;
+  padding: clamp(48px, 9vw, 72px) clamp(16px, 6vw, 24px);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -491,7 +614,7 @@ const SectionHeader = styled.header`
 
   h2 {
     margin: 0;
-    font-size: 1.9rem;
+    font-size: clamp(1.6rem, 5vw, 1.9rem);
     font-family: 'Raleway', sans-serif;
     font-weight: 700;
   }
@@ -507,6 +630,7 @@ const AboutGrid = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  align-items: center;
 `;
 
 const AboutCopy = styled.div`
@@ -516,6 +640,8 @@ const AboutCopy = styled.div`
   color: var(--text-muted);
   font-size: 0.98rem;
   line-height: 1.7;
+  max-width: 720px;
+  width: 100%;
 `;
 
 const AboutLead = styled.p`
@@ -529,6 +655,8 @@ const SkillsPanel = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
+  width: 100%;
+  max-width: 720px;
 `;
 
 const SkillsHeading = styled.h3`
@@ -543,12 +671,16 @@ const ProjectGrid = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 24px;
   align-items: start;
+
+  @media (max-width: 600px) {
+    gap: 20px;
+  }
 `;
 
 const PublicationsSection = styled.section`
   max-width: 1100px;
   margin: 0 auto;
-  padding: 80px 24px;
+  padding: clamp(56px, 11vw, 80px) clamp(16px, 6vw, 24px);
   display: flex;
   flex-direction: column;
   gap: 36px;
@@ -577,7 +709,7 @@ const ResearchBlock = styled.div`
 
 const ContactSection = styled.section`
   background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(14, 116, 144, 0.35));
-  padding: 80px 24px;
+  padding: clamp(56px, 12vw, 80px) clamp(16px, 6vw, 24px);
 `;
 
 const ContactCard = styled.div`
@@ -585,7 +717,7 @@ const ContactCard = styled.div`
   margin: 0 auto;
   background: var(--surface-primary);
   border-radius: 24px;
-  padding: 48px;
+  padding: clamp(28px, 8vw, 48px);
   border: 1px solid var(--border-subtle);
   box-shadow: var(--shadow-hover);
   display: flex;
@@ -596,13 +728,13 @@ const ContactCard = styled.div`
 
 const ContactTitle = styled.h2`
   margin: 0;
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 5.5vw, 2rem);
   font-family: 'Raleway', sans-serif;
 `;
 
 const ContactCopy = styled.p`
   margin: 0;
-  font-size: 1rem;
+  font-size: clamp(0.95rem, 4.2vw, 1rem);
   color: var(--text-muted);
   line-height: 1.8;
 `;
@@ -612,10 +744,15 @@ const ContactActions = styled.div`
   flex-wrap: wrap;
   justify-content: center;
   gap: 16px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: stretch;
+  }
 `;
 
 const Footer = styled.footer`
-  padding: 60px 24px;
+  padding: clamp(40px, 10vw, 60px) clamp(16px, 6vw, 24px);
   background: #0b1220;
   color: #fff;
 `;
@@ -647,6 +784,14 @@ const FooterLinks = styled.nav`
     color: #fff;
     cursor: pointer;
     font-size: 0.95rem;
+  }
+
+  @media (max-width: 480px) {
+    gap: 16px;
+
+    button {
+      font-size: 1rem;
+    }
   }
 `;
 

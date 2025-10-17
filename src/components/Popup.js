@@ -50,6 +50,12 @@ const PopupContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 20px;
+  overflow-y: auto;
+
+  @media (max-width: 600px) {
+    align-items: flex-start;
+    padding: 12px;
+  }
 `
 
 const Overlay = styled.div`
@@ -68,7 +74,7 @@ const Modal = styled.div`
   border-radius: 15px;
   width: 100%;
   max-width: 900px;
-  max-height: 90vh;
+  max-height: calc(100vh - 32px);
   overflow-y: auto;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
   animation: modalFadeIn 0.3s ease;
@@ -85,7 +91,11 @@ const Modal = styled.div`
   }
 
   @media (max-width: 768px) {
-    max-height: 95vh;
+    max-height: calc(100vh - 24px);
+  }
+
+  @media (max-width: 600px) {
+    border-radius: 16px;
   }
 `
 
@@ -100,7 +110,7 @@ const ModalContent = styled.div`
 
 const Mimg = styled.div`
   width: 100%;
-  height: 300px;
+  height: clamp(220px, 40vh, 320px);
   background: url(p.jpg) center center/cover;
   border-radius: 15px 15px 0 0;
 
@@ -123,6 +133,10 @@ const Minfo = styled.div`
   @media (max-width: 768px) {
     padding: 20px;
   }
+
+  @media (max-width: 480px) {
+    padding: 18px;
+  }
 `
 
 const Title = styled.div`
@@ -136,6 +150,10 @@ const Title = styled.div`
   @media (max-width: 768px) {
     font-size: 20px;
   }
+
+  @media (max-width: 480px) {
+    font-size: 19px;
+  }
 `
 
 const Tag = styled.div`
@@ -145,6 +163,10 @@ const Tag = styled.div`
   padding-bottom: 15px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   font-family: "Raleway";
+
+  @media (max-width: 480px) {
+    padding-bottom: 12px;
+  }
 `
 
 const Detail = styled.div`
@@ -158,11 +180,20 @@ const Detail = styled.div`
   @media (max-width: 768px) {
     font-size: 13px;
   }
+
+  @media (max-width: 480px) {
+    font-size: 12.5px;
+  }
 `
 
 const Mbtn = styled.a`
   text-decoration: none;
   margin-top: auto;
+  width: fit-content;
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 `
 
 const Mbtninner = styled.div`
@@ -185,6 +216,11 @@ const Mbtninner = styled.div`
 
   svg {
     font-size: 18px;
+  }
+
+  @media (max-width: 480px) {
+    justify-content: center;
+    width: 100%;
   }
 `
 
@@ -217,6 +253,11 @@ const CloseButton = styled.button`
     svg {
       color: #fff;
     }
+  }
+
+  @media (max-width: 480px) {
+    top: 12px;
+    right: 12px;
   }
 `
 

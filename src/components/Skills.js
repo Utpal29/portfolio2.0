@@ -24,6 +24,10 @@ const SkillsSection = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 24px;
   width: 100%;
+
+  @media (max-width: 600px) {
+    gap: 18px;
+  }
 `;
 
 const SkillCard = styled.article`
@@ -41,6 +45,10 @@ const SkillCard = styled.article`
     border-color: var(--accent);
     box-shadow: var(--shadow-soft);
   }
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 const CardTitle = styled.h3`
@@ -54,6 +62,10 @@ const SkillChips = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
 `;
 
 const Chip = styled.span`
@@ -61,7 +73,7 @@ const Chip = styled.span`
   color: var(--accent-contrast);
   padding: 6px 12px;
   border-radius: 999px;
-  font-size: 0.85rem;
+  font-size: 0.83rem;
   font-weight: 500;
   letter-spacing: 0.01em;
 `;

@@ -36,6 +36,10 @@ const List = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
+
+  @media (max-width: 600px) {
+    gap: 18px;
+  }
 `;
 
 const PaperCard = styled.article`
@@ -47,6 +51,11 @@ const PaperCard = styled.article`
   flex-direction: column;
   gap: 12px;
   box-shadow: var(--shadow-soft);
+
+  @media (max-width: 480px) {
+    padding: 18px;
+    gap: 10px;
+  }
 `;
 
 const IconCircle = styled.span`
@@ -69,7 +78,7 @@ const Content = styled.div`
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 1.05rem;
+  font-size: clamp(1rem, 4.2vw, 1.05rem);
   font-weight: 600;
   color: var(--text-strong);
 `;
@@ -78,6 +87,10 @@ const ChipRow = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+
+  @media (max-width: 480px) {
+    gap: 6px;
+  }
 `;
 
 const Chip = styled.span`
@@ -93,13 +106,19 @@ const Chip = styled.span`
 const Summary = styled.p`
   margin: 0;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.93rem;
   line-height: 1.6;
 `;
 
 const Actions = styled.div`
   display: flex;
   gap: 10px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 `;
 
 const Action = styled.a`
@@ -113,6 +132,10 @@ const Action = styled.a`
 
   &:hover {
     color: var(--accent-strong);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.92rem;
   }
 `;
 

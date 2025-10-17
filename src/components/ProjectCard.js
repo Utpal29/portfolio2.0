@@ -78,6 +78,10 @@ const Card = styled.article`
     box-shadow: var(--shadow-hover);
     border-color: var(--accent);
   }
+
+  @media (max-width: 480px) {
+    border-radius: 16px;
+  }
 `;
 
 const Preview = styled.div`
@@ -104,11 +108,18 @@ const Header = styled.button`
   padding: 16px 18px 0 18px;
   cursor: pointer;
   text-align: left;
+  gap: 10px;
+
+  @media (max-width: 480px) {
+    padding: 16px 16px 0 16px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: 1.25rem;
+  font-size: clamp(1.1rem, 4.8vw, 1.25rem);
   font-weight: 600;
   color: var(--text-strong);
 `;
@@ -136,6 +147,11 @@ const Summary = styled.p`
   font-size: 0.95rem;
   line-height: 1.6;
   padding: 0 18px;
+
+  @media (max-width: 480px) {
+    padding: 0 16px;
+    font-size: 0.92rem;
+  }
 `;
 
 const TechList = styled.div`
@@ -143,6 +159,11 @@ const TechList = styled.div`
   flex-wrap: wrap;
   gap: 8px;
   padding: 0 18px 12px 18px;
+
+  @media (max-width: 480px) {
+    padding: 0 16px 12px 16px;
+    gap: 6px;
+  }
 `;
 
 const TechBadge = styled.span`
@@ -158,6 +179,11 @@ const Details = styled.div`
   flex-direction: column;
   gap: 16px;
   padding: 0 18px 18px 18px;
+
+  @media (max-width: 480px) {
+    padding: 0 16px 16px 16px;
+    gap: 14px;
+  }
 `;
 
 const AchievementList = styled.ul`
@@ -171,6 +197,11 @@ const AchievementList = styled.ul`
   li {
     line-height: 1.5;
   }
+
+  @media (max-width: 480px) {
+    padding-left: 16px;
+    gap: 8px;
+  }
 `;
 
 const Actions = styled.div`
@@ -178,6 +209,11 @@ const Actions = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   padding: 0 18px 18px 18px;
+
+  @media (max-width: 480px) {
+    padding: 0 16px 16px 16px;
+    flex-direction: column;
+  }
 `;
 
 const ActionButton = styled.a`
@@ -201,6 +237,11 @@ const ActionButton = styled.a`
   &:hover {
     transform: translateY(-2px);
     box-shadow: ${({ variant }) => (variant === 'secondary' ? 'var(--shadow-soft)' : '0 14px 32px rgba(20, 184, 166, 0.45)')};
+  }
+
+  @media (max-width: 480px) {
+    justify-content: center;
+    width: 100%;
   }
 `;
 
