@@ -1,163 +1,203 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Experience = () => {
-  const experienceData = [
-    {
-      title: "Software Engineer (Full-Time)",
-      company: "Bank of America",
-      location: "Hyderabad, India",
-      period: "Jul 2023 – Dec 2023",
-      responsibilities: [
-        "Developed and maintained secure financial applications using Java and REST APIs.",
-        "Collaborated with cross-functional teams to deliver backend features and bug fixes.",
-        "Followed Agile Scrum practices, participated in daily standups, sprint planning, and reviews.",
-        "Wrote automated tests to improve code reliability and reduce regression issues."
-      ]
-    },
-    {
-      title: "Team Manager & Student Success Officer – Seneca Food Hackathon (Internship)",
-      company: "Seneca College",
-      location: "Toronto, Canada",
-      period: "Feb 2025 – Apr 2025",
-      responsibilities: [
-        "Served dual roles: managed team progress as Team Manager and supported participants' well-being as Student Success Officer.",
-        "Organized Agile sprints, tracked tasks using Kanban tools, and ensured timely delivery.",
-        "Presented the final project to faculty and industry experts, earning positive feedback.",
-        "Demonstrated leadership, time management, and collaboration in a high-pressure environment."
-      ]
-    }
-  ];
+const experiences = [
+  {
+    company: 'Bank of America',
+    title: 'Software Engineer',
+    location: 'Hyderabad, India',
+    period: 'Jul 2023 – Dec 2023',
+    headline: 'Built and hardened loan-origination APIs that process thousands of requests per day.',
+    highlights: [
+      'Improved backend efficiency by 15% by refactoring Spring Boot services and optimizing MySQL queries used across lending journeys.',
+      'Shipped 5+ production features and 50+ automated tests, lifting regression coverage by 30% and stabilizing sprint releases.',
+      'Partnered with product, QA, and design in Agile ceremonies to triage 20+ high-priority issues within SLA.'
+    ]
+  },
+  {
+    company: 'Seneca Food Hackathon',
+    title: 'Event Operations Intern (Team Lead)',
+    location: 'Toronto, Canada',
+    period: 'Jan 2025 – Mar 2025',
+    headline: 'Coordinated delivery for a 1,000+ participant hackathon with data-driven check-ins and reporting.',
+    highlights: [
+      'Led a squad of 8 coordinators, using Kanban dashboards to unblock 50+ student teams ahead of submission deadlines.',
+      'Consolidated analytics for mentors and judges, shortening progress reviews from hours to minutes.',
+      'Formalized communication playbooks that improved stakeholder satisfaction scores by 20% (post-event survey).'
+    ]
+  }
+];
 
+const Experience = () => {
   return (
-    <ExperienceSection>
-      <Header>EXPERIENCE</Header>
-      <HeaderLine />
-      <ExperienceGrid>
-        {experienceData.map((exp, index) => (
-          <ExperienceCard key={index}>
-            <JobTitle>{exp.title}</JobTitle>
-            <CompanyInfo>
-              {exp.company}, <LocationSpan>{exp.location}</LocationSpan>
-            </CompanyInfo>
-            <Period>{exp.period}</Period>
-            <ResponsibilitiesList>
-              {exp.responsibilities.map((responsibility, respIndex) => (
-                <ResponsibilityItem key={respIndex}>
-                  {responsibility}
-                </ResponsibilityItem>
-              ))}
-            </ResponsibilitiesList>
-          </ExperienceCard>
+    <Section id="experience">
+      <SectionHeading>
+        <h2>Experience</h2>
+        <p>Impact-focused highlights from recent engineering and leadership roles.</p>
+      </SectionHeading>
+      <Timeline>
+        {experiences.map((experience) => (
+          <TimelineItem key={experience.company}>
+            <Dot />
+            <Card>
+              <Meta>
+                <Role>{experience.title}</Role>
+                <Company>{experience.company}</Company>
+                <MetaRow>
+                  <MetaTag>{experience.location}</MetaTag>
+                  <MetaTag>{experience.period}</MetaTag>
+                </MetaRow>
+              </Meta>
+              <Headline>{experience.headline}</Headline>
+              <Highlights>
+                {experience.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </Highlights>
+            </Card>
+          </TimelineItem>
         ))}
-      </ExperienceGrid>
-    </ExperienceSection>
+      </Timeline>
+    </Section>
   );
 };
 
-const ExperienceSection = styled.section`
-  padding: 100px 0;
-  background: #ffffff;
-  width: 100%;
+const Section = styled.section`
+  padding: 120px 0;
+  background: var(--page-bg);
 `;
 
-const Header = styled.div`
-  line-height: 150%;
-  font-family: "raleway";
-  font-size: 25pt;
-  color: #444649;
-  font-weight: bold;
-  display: block;
+const SectionHeading = styled.div`
+  max-width: 760px;
+  margin: 0 auto 64px auto;
   text-align: center;
+  color: var(--text-muted);
 
-  @media (min-width: 600px) {
-    font-size: 30pt;
+  h2 {
+    font-size: 2.2rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    color: var(--text-strong);
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.7;
   }
 `;
 
-const HeaderLine = styled.div`
-  background: #444649;
-  height: 4px;
-  width: 70px;
-  margin: 25px auto 100px auto;
-  text-align: center;
+const Timeline = styled.div`
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto;
+  padding-left: 32px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    left: 16px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border-strong);
+  }
+
+  @media (max-width: 600px) {
+    padding-left: 24px;
+
+    &:before {
+      left: 10px;
+    }
+  }
 `;
 
-const ExperienceGrid = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+const TimelineItem = styled.article`
+  position: relative;
+  margin-bottom: 40px;
+  padding-left: 24px;
+`;
+
+const Dot = styled.span`
+  position: absolute;
+  left: -2px;
+  top: 18px;
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 3px solid var(--page-bg);
+  box-shadow: 0 0 0 4px var(--accent-muted);
+`;
+
+const Card = styled.div`
+  background: var(--surface-primary);
+  border-radius: 18px;
+  border: 1px solid var(--border-subtle);
+  padding: 28px 32px;
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  gap: 40px;
-`;
+  gap: 18px;
 
-const ExperienceCard = styled.div`
-  padding: 35px;
-  background: #f5f5f5;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-  border-left: 4px solid #04c2c9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-  &:hover {
-    transform: translateX(10px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  @media (max-width: 600px) {
+    padding: 24px;
   }
 `;
 
-const JobTitle = styled.h3`
-  font-family: "Raleway";
-  font-size: 18pt;
-  color: #444649;
-  margin: 0 0 10px 0;
+const Meta = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`;
+
+const Role = styled.h3`
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-strong);
+`;
+
+const Company = styled.span`
+  font-size: 1rem;
+  color: var(--accent);
   font-weight: 600;
 `;
 
-const CompanyInfo = styled.div`
-  font-family: "Raleway";
-  font-size: 14pt;
-  color: #616161;
-  margin-bottom: 5px;
+const MetaRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 `;
 
-const LocationSpan = styled.span`
-  color: #04c2c9;
+const MetaTag = styled.span`
+  background: var(--surface-elevated);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
 `;
 
-const Period = styled.div`
-  font-family: "Raleway";
-  font-size: 12pt;
-  color: #e31b6d;
-  margin-bottom: 20px;
-  font-weight: 500;
+const Headline = styled.p`
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-strong);
+  line-height: 1.6;
 `;
 
-const ResponsibilitiesList = styled.ul`
+const Highlights = styled.ul`
   margin: 0;
   padding-left: 20px;
-  list-style-type: none;
-`;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--text-muted);
 
-const ResponsibilityItem = styled.li`
-  font-family: "Raleway";
-  font-size: 12pt;
-  color: #616161;
-  margin-bottom: 10px;
-  line-height: 1.6;
-  position: relative;
-
-  &:before {
-    content: "•";
-    color: #04c2c9;
-    font-weight: bold;
-    position: absolute;
-    left: -20px;
-  }
-
-  &:last-child {
-    margin-bottom: 0;
+  li {
+    line-height: 1.6;
   }
 `;
 
-export default Experience; 
+export default Experience;

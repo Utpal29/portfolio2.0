@@ -1,634 +1,606 @@
-import './style.css'
+import './style.css';
 import styled from 'styled-components';
+import { useRef, useState } from 'react';
+import { FiMenu, FiX, FiArrowDownCircle, FiLinkedin, FiGithub, FiFileText } from 'react-icons/fi';
 import Skills from './components/Skills';
-import Card from './components/Card';
-import Patent from './components/Patent';
-import Education from './components/Education';
 import Experience from './components/Experience';
+import Education from './components/Education';
+import ProjectCard from './components/ProjectCard';
+import Patent from './components/Patent';
 import Research from './components/Research';
-import { HiChevronDoubleUp } from 'react-icons/hi'
-import { FaLinkedinIn, FaGithub, FaInstagram } from 'react-icons/fa'
-import { AiOutlineArrowRight } from 'react-icons/ai';
-import { useRef } from 'react';
+import { projects } from './data/projects';
+import { patents } from './data/publications';
+import { portfolioContent } from './data';
 
 function App() {
-  const contact = useRef(null);
-  const home = useRef(null);
-  const about = useRef(null);
+  const heroRef = useRef(null);
+  const aboutRef = useRef(null);
+  const projectsRef = useRef(null);
+  const experienceRef = useRef(null);
+  const contactRef = useRef(null);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const scrollToSection = (elementRef) => {
-    window.scrollTo({
-      top: elementRef.current.offsetTop,
-      behavior: 'smooth'
-    })
-  }
+  const heroAvailability = portfolioContent.hero.availability ?? {};
+  const heroContent = {
+    ...portfolioContent.hero,
+    elevatorPitch:
+      portfolioContent.hero.elevatorPitchVariants?.[portfolioContent.hero.elevatorPitchDefault] ??
+      portfolioContent.hero.elevatorPitchVariants?.energetic,
+    availability: heroAvailability
+  };
+
+  const aboutSummary = portfolioContent.about.short;
+
+  const navLinks = [
+    { label: 'About', ref: aboutRef },
+    { label: 'Projects', ref: projectsRef },
+    { label: 'Experience', ref: experienceRef },
+    { label: 'Contact', ref: contactRef }
+  ];
+
+  const handleScroll = (sectionRef) => {
+    setIsMenuOpen(false);
+    if (!sectionRef.current) return;
+    const offset = sectionRef.current.offsetTop - 70;
+    window.scrollTo({ top: offset, behavior: 'smooth' });
+  };
 
   return (
-    <div>
-      <section id='home' ref={home}>
-        <div id='stars'></div>
-        <div id='stars2'></div>
-        <div id='stars3'></div>
-        <div id='title'>
-          <TitleText>
-            Hello, I'm <NameS>Utpal Prajapati.</NameS>
-          </TitleText>
-          <TitleText>
-            I'm a Software Developer.
-          </TitleText>
-          <div >
-            <button id='homeBtn' onClick={() => scrollToSection(about)} className='btn btn-1 btn-1b'>View my work   <AiOutlineArrowRight className='homeArrow' /> </button>
-          </div>
-        </div>
-      </section >
+    <Page>
+      <SkipLink href="#main">Skip to content</SkipLink>
+      <Navigation>
+        <NavContent>
+          <Brand onClick={() => handleScroll(heroRef)}>{heroContent.name}</Brand>
+          <MobileToggle onClick={() => setIsMenuOpen((prev) => !prev)} aria-label="Toggle navigation">
+            {isMenuOpen ? <FiX /> : <FiMenu />}
+          </MobileToggle>
+          <NavLinks $open={isMenuOpen}>
+            {navLinks.map((link) => (
+              <button type="button" key={link.label} onClick={() => handleScroll(link.ref)}>{link.label}</button>
+            ))}
+          </NavLinks>
+        </NavContent>
+      </Navigation>
 
-      <AboutSection ref={about}>
-        <Header >ABOUT</Header>
-        <HeaderLine />
+      <Main id="main">
+        <HeroSection ref={heroRef}>
+          <HeroContent>
+            <HeroLabel>{heroContent.title}</HeroLabel>
+            <HeroTitle>{heroContent.elevatorPitch}</HeroTitle>
+            {heroContent.availability.location && (
+              <HeroSubtitle>{heroContent.availability.location}</HeroSubtitle>
+            )}
+            <HeroMeta>
+              {heroContent.availability.openTo?.length > 0 && (
+                <HeroMetaItem>
+                  <span>Open to: {heroContent.availability.openTo.join(' • ')}</span>
+                </HeroMetaItem>
+              )}
+              {heroContent.availability.start && (
+                <HeroMetaItem>
+                  <span>Start: {heroContent.availability.start}</span>
+                </HeroMetaItem>
+              )}
+            </HeroMeta>
+            <CTAGroup>
+              <PrimaryCTA href="https://drive.google.com" target="_blank" rel="noopener noreferrer">
+                <FiFileText />
+                <span>Download Resume</span>
+              </PrimaryCTA>
+              <SecondaryCTA as="button" type="button" onClick={() => handleScroll(projectsRef)}>
+                <FiArrowDownCircle />
+                <span>View Projects</span>
+              </SecondaryCTA>
+            </CTAGroup>
+            <Stats>
+              {heroContent.snapshotStats.map((stat) => (
+                <StatCard key={stat.label}>
+                  <StatValue>{stat.value}</StatValue>
+                  <StatLabel>{stat.label}</StatLabel>
+                </StatCard>
+              ))}
+            </Stats>
+          </HeroContent>
+          <HeroImage>
+            <img src="me.jpeg" alt="Utpal Prajapati at graduation" />
+          </HeroImage>
+        </HeroSection>
 
-        <AboutInfoSection>
-          <Flex1>
-            <ImageContainer>
-              <img src='me.jpeg' alt='me' />
-            </ImageContainer>
-            <Label>Who's this guy?</Label>
-            <Aboutme>
-              Versatile professional with a background in Project Management and Business Analytics, and technical expertise in Java, Python, and SQL. Experienced in Agile development, client-focused delivery, and collaborative team leadership. Demonstrated success in both corporate and academic settings, including Bank of America and data-driven academic projects.
-              <br /><br />
-              <SpanLink onClick={() => scrollToSection(contact)}>Let's make something special.</SpanLink>
-            </Aboutme>
-          </Flex1>
-          <Flex2>
-            <Skills />
-          </Flex2>
-        </AboutInfoSection>
-      </AboutSection>
+        <Section ref={aboutRef} id="about">
+          <SectionHeader>
+            <h2>About</h2>
+          </SectionHeader>
+          <AboutGrid>
+            <AboutCopy>
+              <AboutLead>{aboutSummary}</AboutLead>
+            </AboutCopy>
+            <SkillsPanel>
+              <SkillsHeading>Skills &amp; Tools</SkillsHeading>
+              <Skills />
+            </SkillsPanel>
+          </AboutGrid>
+        </Section>
 
-      <Education />
-      
-      <Experience />
+        <Section ref={projectsRef} id="projects">
+          <SectionHeader>
+            <h2>Projects</h2>
+          </SectionHeader>
+          <ProjectGrid>
+            {projects.map((project) => (
+              <ProjectCard key={project.title} project={project} />
+            ))}
+          </ProjectGrid>
+        </Section>
 
-      <ProjectSection>
-        <Header >PROJECTS</Header>
-        <HeaderLine />
-        <Gallery>
-          <Card
-            name="Coinly - Personal Finance Tracker"
-            tech="React, Vite, Tailwind CSS, Supabase"
-            pimage="coinly.png"
-            info="A modern, user-friendly personal finance tracking application that helps users manage their income and expenses with ease. Features include:
-            • Dashboard Overview: Quick snapshot of financial status
-            • Transaction Management: Add, edit, and delete income/expense transactions
-            • Calendar View: Visualize daily income and expenses
-            • Insights: Analyze spending patterns and financial trends
-            • User Authentication: Secure login and signup system
-            • Responsive Design: Works seamlessly on all devices
-            "
-            link="true"
-            git="https://github.com/Utpal29/coinly"
-          />
-          <Card
-            name="AllMart eCommerce Website"
-            tech="react, Nodejs"
-            pimage="p1.png"
-            info="The main aim of this project is to make shopping easier for the user for buying essential items as well as for sellers to sell items more easily. 
-            This platform has an easy-to-use user interface to search for items, view a complete description of the product, and order the product. 
-            The app has been designed and built in a manner that makes it very easy to order items once they are added to the cart. 
-            "
-            link="true"
-            git="https://github.com/Utpal29/AllMart"
-          />
-          <Card
-            name="Phishing Website Detection"
-            tech="Python"
-            pimage="p2.jpg"
-            info="Phishing website detection using machine learning and deep neural networks.
-            Algorithms like Naïve Bayes, Decision Tree, Random Forest, ANN, and CNN were used with and without a generic Algorithm. 
-            Compared all Algorithms' accuracy, RMSE, and computation time.
-            "
-            link="true"
-            git="https://Utpal29/Phishing-Website-Detection"
-          />
-          <Card
-            name="Queue Management Using Computer Vision"
-            tech="Python"
-            pimage="p3.jpg"
-            info="Queue manager using object detection and tracking. The queue manager will be identifying a person (in the frame of vision of the camera) and giving him/her a number tag. People will follow the order of their tag number."
-            link="true"
-            git="https://github.com/Utpal29/Queue-Management"
-          />
-          <Card
-            name="Analysis and Visualization of Criminal Activity in Urban Illinois"
-            tech="Python"
-            pimage="p4.jpeg"
-            info="Chicago Crime Dataset was used to visualize and analyze the trends of crime over the years, locations of the crimes where they happened the most, and hotspots of crimes over the years.
-            Trained the decision tree model to make predictions on whether arrests will be made or not. Its accuracy is measured and cross-validated against the present data."
-            link="false"
-            git="https://github.com/"
-          />
-        </Gallery>
-      </ProjectSection>
+        <Experience />
+        <Education />
 
-      <PatentSection>
-        <PatentSectionInner>
-          <Header >PUBLISHED PATENTS</Header>
-          <HeaderLine />
+        <PublicationsSection>
+          <SectionHeader>
+            <h2>Publications & IP</h2>
+            <p>Applied research and patented ideas that inform how I design software systems.</p>
+          </SectionHeader>
+          <PublicationsGrid>
+            {patents.map((patent) => (
+              <Patent key={patent.applicationId} {...patent} />
+            ))}
+          </PublicationsGrid>
+          <ResearchBlock>
+            <Research />
+          </ResearchBlock>
+        </PublicationsSection>
 
-          <Patents>
-            <Patents>
-              <Patent
-                name="HEALTHCARE SYSTEM FOR CANCER CARE AND METHOD"
-                id="202241031893"
-                date="03/06/2022"
-                image="pt1.png"
-              />
-              <Patent
-                name="AUTONOMOUS VEHICLE SYSTEM FOR DATA SELECTION ON BOARD"
-                id="202241047484"
-                date="20/08/2022"
-                image="pt2.png"
-              />
-            </Patents>
-            <Patents>
-              <Patent
-                name="WIRELESS SIGNAL NOISE REDUCTION METHOD AND SYSTEM"
-                id="202241047466"
-                date="20/08/2022"
-                image="pt3.png"
-              />
-              <Patent
-                name="SUPPLY CHAIN MANAGEMENT RISK PREDICTION"
-                id="202241050428"
-                date="03/09/2022"
-                image="pt4.png"
-              />
-            </Patents>
-          </Patents>
-        </PatentSectionInner>
-      </PatentSection>
-
-      <Research />
-
-      <Contact ref={contact}>
-        <svg style={{ left: '0', position: 'absolute', top: '0' }} preserveAspectRatio="none" viewBox="0 0 100 102" height="75" width="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="svgcolor-light">
-          <path d="M0 0 L50 100 L100 0 Z" fill="white" stroke="white"></path>
-        </svg>
-
-        <ContactContainer id='contact'>
-          <Header style={{ color: '#FFF', marginTop: '65px' }}>CONTACT</Header>
-          <HeaderLine style={{ backgroundColor: '#FFF', margin: '25px 0 40px 0' }} />
-          <PLb>Working with someone has always been fun for me. Want to make something cool together?</PLb>
-          <ContactForm>
-            <Name placeholder="Name" type="text" name="name" required />
-            <Name placeholder="Enter email" type="email" name="email" required />
-            <Message placeholder="Your Message" type="text" name="message" data-gramm="false" wt-ignore-input="true" data-quillbot-element="vUWuNutko0jruLdSV2JkF" style={{ height: '150px', width: '515px', }} />
-          </ContactForm>
-          <FormSubmit type="submit" value="SUBMIT" />
-        </ContactContainer>
-      </Contact>
+        <ContactSection ref={contactRef} id="contact">
+          <ContactCard>
+            <ContactTitle>Let’s build the next standout product.</ContactTitle>
+            <ContactCopy>
+              I’m currently interviewing for software engineering roles where I can ship end-to-end features and
+              collaborate with cross-functional teams.
+            </ContactCopy>
+            <ContactActions>
+              <PrimaryCTA href="https://www.linkedin.com/in/utpal-prajapati-191a391a8/" target="_blank" rel="noopener noreferrer">
+                <FiLinkedin />
+                <span>Connect on LinkedIn</span>
+              </PrimaryCTA>
+              <SecondaryCTA as="a" href="https://github.com/Utpal29" target="_blank" rel="noopener noreferrer">
+                <FiGithub />
+                <span>Explore GitHub</span>
+              </SecondaryCTA>
+            </ContactActions>
+          </ContactCard>
+        </ContactSection>
+      </Main>
 
       <Footer>
-        <FHiChevronDoubleUp onClick={() => scrollToSection(home)} dest="home" />
-        <Icons>
-          <a style={{ color: 'inherit', textDecoration: 'none' }} href="https://www.linkedin.com/in/utpal-prajapati-191a391a8/">
-            <Icon>
-              <FaLinkedinIn />
-            </Icon>
-          </a>
-          <a style={{ color: 'inherit', textDecoration: 'none' }} href="https://github.com/Utpal29">
-            <Icon>
-              <FaGithub />
-            </Icon>
-          </a>
-          <a style={{ color: 'inherit', textDecoration: 'none' }} href="https://www.instagram.com/utpal.29/">
-            <Icon>
-              <FaInstagram />
-            </Icon>
-          </a>
-          {/* <a style={{ color: 'inherit', textDecoration: 'none' }} href="https://twitter.com/utpal_29">
-            <Icon>
-              <FaTwitter />
-            </Icon>
-          </a> */}
-        </Icons>
-        <InfoBox>
-          <Footnote>
-            UTPAL PRAJAPATI <SHighlight>@2025</SHighlight>
-          </Footnote>
-        </InfoBox>
+        <FooterContent>
+          <FooterBrand>Utpal Prajapati</FooterBrand>
+          <FooterLinks>
+            {navLinks.map((link) => (
+              <button type="button" key={link.label} onClick={() => handleScroll(link.ref)}>{link.label}</button>
+            ))}
+          </FooterLinks>
+          <FooterNote>© {new Date().getFullYear()} Crafted with care in Toronto.</FooterNote>
+        </FooterContent>
       </Footer>
-    </div >
+    </Page>
   );
 }
 
-const Footer = styled.section`
-background: #1b242f;
-padding: 70px 0 50px 0;
-position: relative;
-`
+const Page = styled.div`
+  background: var(--page-bg);
+  color: var(--text-strong);
+`;
 
-const FHiChevronDoubleUp = styled(HiChevronDoubleUp)`
-color: #FFF;
-background: #e31b6d;
-cursor: pointer;
-font-size: 10pt;
-height: 50px;
-left: 0;
-line-height: 40pt;
-margin: 0 auto;
-position: absolute;
-right: 0;
-top: -25px;
-transition: background 0.5s;
-width: 47px;
-`
-const Icons = styled.div`
-flex-direction: row;
-align-items: center;
-display: flex;
-justify-content: center;
-color: #fff;
-`
+const SkipLink = styled.a`
+  position: absolute;
+  top: -40px;
+  left: 0;
+  padding: 12px 16px;
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border-radius: 0 0 8px 8px;
+  z-index: 1000;
 
-const Icon = styled.div`
-background: #262f38;
-cursor: pointer;
-font-size: 18pt;
-height: 55px;
-margin: 0 15px;
-overflow: hidden;
-position: relative;
-text-align: center;
-transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
-width: 55px;
-align-items: center;
-display: flex;
-flex-direction: column;
-justify-content: center;
-
-&:hover{
-  background: #04c2c9;
-  box-shadow: 0 0 0 3px rgb(4 94 201 / 10%);
-  transform: scale(0.9);
-}
-`
-const InfoBox = styled.div`
-text-align: center;
-`
-
-const Footnote = styled.div` 
-color: #8f9aa7;
-font-size: 10pt;
-margin-top: 35px;
-opacity: 0.6;
-font-family: "Raleway";
-`
-
-const SHighlight = styled.span`
-color: #e31b6d;
-font-family: "Open Sans";
-`
-
-const FormSubmit = styled.input`
-width: 165px;
-background: transparent;
-color: #fff;
-float: right;
-font-size: 12pt;
-margin: 5px 0 0 0;
-outline: 0;
-padding: 10px 30px;
-border: 2px solid #fff;
-box-sizing: inherit;
-cursor: pointer;
-display: inline-block;
-transition: all 0.5s;
-
-&:hover {
-  background: #04c2c9;
-  border-color: #04c2c9;
-}
-`
-
-const Name = styled.input`
-background: #1e242c;
-border: 0;
-box-sizing: border-box;
-color: #fff;
-display: block;
-font-size: 12pt;
-margin-bottom: 3px;
-outline: none;
-padding: 10px 15px;
-width: 100%;
-`
-
-const Message = styled.textarea`
-height: 150px;
-width: 515px;
-margin-bottom: 5px;
-min-height: 150px;
-background: #1e242c;
-border: 0;
-box-sizing: border-box;
-color: #fff;
-display: block;
-font-size: 12pt;
-outline: none;
-padding: 10px 15px;
-`
-
-const ContactForm = styled.form`
-animation-delay: 0.5s;
-animation: popIn 1s both;
-min-width: 500px;
-margin: 40px auto 0 auto;
-`
-
-const PLb = styled.div`
-color: #04c2c9;
-font-weight: 600;
-`
-
-const ContactContainer = styled.section`
-padding: 0 10px;
-box-sizing: border-box;
-margin: 0 auto;
-max-width: 1200px;
-width: 100%;
-align-items: center;
-display: flex;
-flex-direction: column;
-justify-content: center;
-font-family: "Raleway";
-`
-
-const Contact = styled.section`
-background: #252934;
-color: #fff;
-padding-top: 175px;
-line-height: 18pt;
-padding: 100px 0 130px 0;
-position: relative;
-
-`
-
-const Patents = styled.div`
-align-items: flex-start;
-display: flex;
-flex-direction: row;
-justify-content: center;
-flex-wrap: wrap;
-
-`
-
-const PatentSection = styled.section`
-padding: 130px 0 0px 0;
-text-align: left;
-line-height: 18pt;
-color: #616161;
-font-family: "Raleway";
-`
-
-const PatentSectionInner = styled.div`
-padding: 0 10px;
-box-sizing: border-box;
-margin: 0 auto;
-max-width: 1200px;
-width: 100%;
-align-items: center;
-display: flex;
-flex-direction: column;
-justify-content: center;
-`
-
-const Gallery = styled.section`
-margin: 20px 0;
-padding: 0;
-flex-wrap: wrap;
-flex-direction: row;
-box-sizing: border-box;
-max-width: 1200px;
-width: 100%;
-align-items: center;
-display: flex;
-justify-content: center;
-`
-
-const ProjectSection = styled.section`
-background: #f5f5f5;
-align-items: center;
-display: flex;
-flex-direction: column;
-justify-content: center
-color: #616161;
-padding: 100px 0 130px 0;
-`
-
-const HeaderLine = styled.div`
-  background: #444649;
-  height: 4px;
-  width: 70px;
-  margin: 25px auto 100px auto;
-  text-align: center;
-`
-
-const Header = styled.div`
-line-height: 150%;
-  font-family: "raleway";
-  font-size: 25pt;
-  color: #444649;
-  font-weight: bold;
-  display: block;
-  text-align: center;
-
-  @media (min-width: 600px) {
-    font-size: 30pt;
+  &:focus {
+    top: 0;
   }
-`
+`;
 
-const AboutSection = styled.section`
-  margin: auto;
-  overflow: hidden;
-  border-top: 3px solid #04c2c9;
-  padding: 100px 0 130px 0;
-  line-height: 18pt;
-  color: #616161;
-  position: relative;
-  font-size: 12pt;
-`
+const Navigation = styled.header`
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  backdrop-filter: blur(12px);
+  background: rgba(10, 18, 40, 0.85);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+`;
 
-const TitleText = styled.div`
-  letter-spacing: normal;
-  font-size: 32pt;
-  line-height: 36pt;
-  pointer-events: none;
+const NavContent = styled.div`
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+`;
+
+const Brand = styled.button.attrs({
+  type: 'button'
+})`
+  background: none;
+  border: none;
   color: #fff;
-  font-family: "Raleway";
-  -webkit-font-smoothing: antialiased;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+`;
 
-  @media (max-width: 600px) {
-    font-size: 16pt;
-    line-height: 20pt;
+const MobileToggle = styled.button.attrs({
+  type: 'button'
+})`
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.6rem;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: inline-flex;
   }
-`
+`;
 
-const NameS = styled.span`
-  font-family: "Raleway";
-  font-weight:600;
-  color: #e31b6d;
-`
+const NavLinks = styled.nav`
+  display: flex;
+  gap: 24px;
 
-const ImageContainer = styled.div`
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  overflow: hidden;
-  border: 3px solid #04c2c9;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
-  margin-bottom: 25px;
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  @media (max-width: 768px) {
+    position: absolute;
+    top: 64px;
+    right: 24px;
+    background: rgba(10, 18, 40, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px;
+    flex-direction: column;
+    gap: 12px;
+    display: ${({ $open }) => ($open ? 'flex' : 'none')};
+  }
+`;
+
+const Main = styled.main`
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+`;
+
+const HeroSection = styled.section`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 64px 24px 56px 24px;
+  align-items: center;
+`;
+
+const HeroContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const HeroLabel = styled.span`
+  font-size: 0.95rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+`;
+
+const HeroTitle = styled.h1`
+  margin: 0;
+  font-size: clamp(1.1rem, 2vw, 1.9rem);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  line-height: 1.2;
+`;
+
+const HeroSubtitle = styled.p`
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--text-muted);
+`;
+
+const HeroMeta = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 18px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+
+  &:empty {
+    display: none;
+  }
+`;
+
+const HeroMetaItem = styled.li`
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.01em;
+
+  svg {
+    color: var(--accent);
+  }
+`;
+
+const CTAGroup = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
+
+const BaseCTA = styled.a`
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+`;
+
+const PrimaryCTA = styled(BaseCTA)`
+  background: var(--accent);
+  color: var(--accent-contrast);
+  box-shadow: 0 18px 35px rgba(20, 184, 166, 0.35);
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
-    border-color: #e31b6d;
+    transform: translateY(-2px);
+    box-shadow: 0 20px 40px rgba(20, 184, 166, 0.45);
   }
+`;
+
+const SecondaryCTA = styled(BaseCTA)`
+  background: var(--surface-elevated);
+  color: var(--text-strong);
+  border: 1px solid var(--border-subtle);
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-soft);
+  }
+`;
+
+const Stats = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+`;
+
+const StatCard = styled.div`
+  background: var(--surface-elevated);
+  border-radius: 16px;
+  padding: 18px;
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+`;
+
+const StatValue = styled.span`
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+`;
+
+const StatLabel = styled.span`
+  color: var(--text-muted);
+  font-size: 0.9rem;
+`;
+
+const HeroImage = styled.div`
+  display: flex;
+  justify-content: center;
 
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+    width: min(320px, 100%);
+    border-radius: 24px;
+    border: 1px solid #22303C;
+    box-shadow: var(--shadow-hover);
   }
+`;
 
-  &:hover img {
-    transform: scale(1.05);
-  }
-`
-
-const AboutInfoSection = styled.section`
-  max-width: 1200px;
+const Section = styled.section`
+  max-width: 1100px;
   margin: 0 auto;
-  align-items: stretch;
-  width: 100%;
+  padding: 56px 24px;
   display: flex;
-  flex-direction: row;
-  gap: 40px;
-  padding: 0 20px;
-
-  @media (max-width: 1200px) {
-    flex-direction: column;
-    padding: 0;
-  }
-`;
-
-const Flex1 = styled.div`
-  display: flex;
-  padding: 20px;
-  box-sizing: border-box;
-  flex: 1;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-
-  @media (max-width: 600px) {
-    padding: 20px;
-  }
+  gap: 24px;
 `;
 
-const Flex2 = styled.div`
+const SectionHeader = styled.header`
+  text-align: center;
   display: flex;
-  flex: 1;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 20px;
+  flex-direction: column;
+  gap: 6px;
 
-  @media (max-width: 1200px) {
-    padding: 0 20px;
+  h2 {
+    margin: 0;
+    font-size: 1.9rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
   }
 `;
 
-const Label = styled.div`
-max-width: 700px;
-margin: 0 0 20px 0;
-font-size: 24pt;
-font-weight: bold;
-font-family: "Raleway";
-text-align: center;
-color: #444649;
-position: relative;
+const AboutGrid = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
 
-&:after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50px;
-  height: 3px;
-  background: #04c2c9;
-  transition: width 0.3s ease;
-}
+const AboutCopy = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 0.98rem;
+  line-height: 1.7;
+`;
 
-&:hover:after {
-  width: 100px;
-}
-`
+const AboutLead = styled.p`
+  margin: 0;
+  color: var(--text-strong);
+  font-size: 1.05rem;
+  line-height: 1.6;
+`;
 
-const Aboutme = styled.div`
-max-width: 600px;
-margin: 0 auto;
-padding: 20px;
-font-size: 14pt;
-font-family: "Raleway";
-color: #616161;
-text-align: center;
-line-height: 1.6;
-background: rgba(4, 194, 201, 0.05);
-border-radius: 15px;
-position: relative;
+const SkillsPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`;
 
-&:before {
-  content: '"';
-  position: absolute;
-  top: -20px;
-  left: 20px;
-  font-size: 60pt;
-  color: #04c2c9;
-  opacity: 0.2;
-  font-family: Georgia, serif;
-}
-`
+const SkillsHeading = styled.h3`
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-strong);
+`;
 
-const SpanLink = styled.span`
-color: #04c2c9;
-cursor: pointer;
-font-weight: 600;
-position: relative;
-transition: all 0.3s ease;
+const ProjectGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  align-items: start;
+`;
 
-&:after {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 2px;
-  bottom: -2px;
-  left: 0;
-  background-color: #04c2c9;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  transition: transform 0.3s ease;
-}
+const PublicationsSection = styled.section`
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+`;
 
-&:hover {
-  color: #e31b6d;
-  &:after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-    background-color: #e31b6d;
+const PublicationsGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+`;
+
+const ResearchBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+`;
+
+const ContactSection = styled.section`
+  background: linear-gradient(135deg, rgba(20, 184, 166, 0.12), rgba(14, 116, 144, 0.35));
+  padding: 80px 24px;
+`;
+
+const ContactCard = styled.div`
+  max-width: 780px;
+  margin: 0 auto;
+  background: var(--surface-primary);
+  border-radius: 24px;
+  padding: 48px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-hover);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  text-align: center;
+`;
+
+const ContactTitle = styled.h2`
+  margin: 0;
+  font-size: 2rem;
+  font-family: 'Raleway', sans-serif;
+`;
+
+const ContactCopy = styled.p`
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+`;
+
+const ContactActions = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+`;
+
+const Footer = styled.footer`
+  padding: 60px 24px;
+  background: #0b1220;
+  color: #fff;
+`;
+
+const FooterContent = styled.div`
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+`;
+
+const FooterBrand = styled.span`
+  font-weight: 700;
+  font-size: 1.1rem;
+  font-family: 'Raleway', sans-serif;
+`;
+
+const FooterLinks = styled.nav`
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.95rem;
   }
-}
-`
+`;
+
+const FooterNote = styled.p`
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+`;
 
 export default App;

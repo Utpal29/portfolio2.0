@@ -1,141 +1,165 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Education = () => {
-  const educationData = [
-    {
-      degree: "Postgraduate Diploma – Project Management – Information Technology",
-      school: "Seneca Polytechnic",
-      location: "Toronto, Canada",
-      period: "2024 – 2025",
-      gpa: "GPA: 3.8 / 4.0"
-    },
-    {
-      degree: "Postgraduate Diploma – Business Analytics",
-      school: "Seneca Polytechnic",
-      location: "Toronto, Canada",
-      period: "2023 – 2024",
-      gpa: "GPA: 4.0 / 4.0"
-    },
-    {
-      degree: "B.Tech – Computer Science and Engineering",
-      school: "Vellore Institute of Technology",
-      location: "Vellore, India",
-      period: "2019 – 2023",
-      gpa: "CGPA: 7.9 / 10"
-    }
-  ];
+const educationHistory = [
+  {
+    degree: 'Project Management – Information Technology (Postgraduate Certificate)',
+    school: 'Seneca Polytechnic',
+    location: 'Toronto, Canada',
+    period: '2024 – 2025',
+    gpa: 'GPA 3.8 / 4.0',
+    highlights: ['Capstone: delivered PMO playbook for cross-border product launch.', 'Academic merit scholarship recipient.']
+  },
+  {
+    degree: 'Business Analytics (Postgraduate Certificate)',
+    school: 'Seneca Polytechnic',
+    location: 'Toronto, Canada',
+    period: '2023 – 2024',
+    gpa: 'GPA 4.0 / 4.0',
+    highlights: ['Dean’s Honour List', 'Led analytics lab sessions for 40+ classmates.']
+  },
+  {
+    degree: 'B.Tech – Computer Science and Engineering',
+    school: 'Vellore Institute of Technology',
+    location: 'Vellore, India',
+    period: '2019 – 2023',
+    gpa: 'GPA 8 / 10',
+    highlights: ['Elected Coding Club mentor', 'Graduated with specialization in Data Analytics.']
+  }
+];
 
+const Education = () => {
   return (
-    <EducationSection>
-      <Header>EDUCATION</Header>
-      <HeaderLine />
-      <EducationGrid>
-        {educationData.map((edu, index) => (
-          <EducationCard key={index}>
-            <DegreeTitle>{edu.degree}</DegreeTitle>
-            <SchoolInfo>
-              {edu.school}, <LocationSpan>{edu.location}</LocationSpan>
-            </SchoolInfo>
-            <EducationDetails>
-              <Period>{edu.period}</Period>
-              <GPA>{edu.gpa}</GPA>
-            </EducationDetails>
-          </EducationCard>
+    <Section id="education">
+      <SectionHeading>
+        <h2>Education</h2>
+      </SectionHeading>
+      <Grid>
+        {educationHistory.map((entry) => (
+          <Card key={entry.degree}>
+            <HeaderRow>
+              <Degree>{entry.degree}</Degree>
+              <Badge>{entry.gpa}</Badge>
+            </HeaderRow>
+            <SchoolRow>
+              <School>{entry.school}</School>
+              <TagRow>
+                <Tag>{entry.location}</Tag>
+                <Tag>{entry.period}</Tag>
+              </TagRow>
+            </SchoolRow>
+            {entry.highlights?.length > 0 && (
+              <HighlightList>
+                {entry.highlights.map((highlight) => (
+                  <li key={highlight}>{highlight}</li>
+                ))}
+              </HighlightList>
+            )}
+          </Card>
         ))}
-      </EducationGrid>
-    </EducationSection>
+      </Grid>
+    </Section>
   );
 };
 
-const EducationSection = styled.section`
-  padding: 100px 0;
-  background: #f5f5f5;
-  width: 100%;
+const Section = styled.section`
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 56px 24px;
 `;
 
-const Header = styled.div`
-  line-height: 150%;
-  font-family: "raleway";
-  font-size: 25pt;
-  color: #444649;
-  font-weight: bold;
-  display: block;
+const SectionHeading = styled.div`
+  margin: 0 0 24px 0;
   text-align: center;
 
-  @media (min-width: 600px) {
-    font-size: 30pt;
+  h2 {
+    margin: 0;
+    font-size: 1.9rem;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
   }
 `;
 
-const HeaderLine = styled.div`
-  background: #444649;
-  height: 4px;
-  width: 70px;
-  margin: 25px auto 100px auto;
-  text-align: center;
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
 `;
 
-const EducationGrid = styled.div`
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+const Card = styled.article`
+  background: var(--surface-elevated);
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-soft);
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 14px;
 `;
 
-const EducationCard = styled.div`
-  padding: 30px;
-  background: #ffffff;
-  border-radius: 10px;
-  transition: transform 0.3s ease;
-  border-left: 4px solid #04c2c9;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-  &:hover {
-    transform: translateX(10px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
+const HeaderRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
 `;
 
-const DegreeTitle = styled.h3`
-  font-family: "Raleway";
-  font-size: 18pt;
-  color: #444649;
-  margin: 0 0 10px 0;
+const Degree = styled.h3`
+  margin: 0;
+  font-size: 1.05rem;
   font-weight: 600;
+  color: var(--text-strong);
 `;
 
-const SchoolInfo = styled.div`
-  font-family: "Raleway";
-  font-size: 14pt;
-  color: #616161;
-  margin-bottom: 10px;
+const Badge = styled.span`
+  background: var(--accent);
+  color: var(--accent-contrast);
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
 `;
 
-const LocationSpan = styled.span`
-  color: #04c2c9;
-`;
-
-const EducationDetails = styled.div`
+const SchoolRow = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 15px;
+  gap: 12px;
 `;
 
-const Period = styled.span`
-  font-family: "Raleway";
-  font-size: 12pt;
-  color: #616161;
-`;
-
-const GPA = styled.span`
-  font-family: "Raleway";
+const School = styled.p`
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-strong);
   font-weight: 600;
-  font-size: 12pt;
-  color: #e31b6d;
 `;
 
-export default Education; 
+const TagRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`;
+
+const Tag = styled.span`
+  background: var(--surface-primary);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+`;
+
+const HighlightList = styled.ul`
+  margin: 0;
+  padding-left: 18px;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  li {
+    line-height: 1.55;
+  }
+`;
+
+export default Education;

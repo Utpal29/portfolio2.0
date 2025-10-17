@@ -1,126 +1,88 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
+import { FiFileText } from 'react-icons/fi';
 
-const Patent = ({name, id, date, image}) => {
+const Patent = ({ title, applicationId, status, focus }) => {
   return (
-    <Pcontainer>
-      <PatentCard>
-        <Thumb style={{backgroundImage: `url(${image})`}}>
-          <ThumbOverlay />
-        </Thumb>
-        <ContentWrapper>
-          <Label>{name}</Label>
-          <Subl>
-            <IdLabel>Application Number:</IdLabel> 
-            <IdNumber>{id}</IdNumber>
-          </Subl>
-          <Date>{date}</Date>
-          <Bar />
-        </ContentWrapper>
-      </PatentCard>
-    </Pcontainer>
-  )
-}
+    <Card>
+      <IconCircle>
+        <FiFileText />
+      </IconCircle>
+      <Content>
+        <Title>{title}</Title>
+        <Metadata>
+          <Badge>{applicationId}</Badge>
+          <MetaText>{status}</MetaText>
+        </Metadata>
+        <Summary>{focus}</Summary>
+      </Content>
+    </Card>
+  );
+};
 
-const Pcontainer = styled.section`
-  margin: 0 0 50px 20px;
-  width: 300px;
-  padding: 0 2px;
-  font-family: "Raleway";
-`
-
-const PatentCard = styled.div`
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
-
-  &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-  }
-`
-
-const Thumb = styled.div`
-  background: ${props => `url(${props.style.backgroundImage.slice(4, -1).replace(/['"]/g, '')})`} center center/cover;
-  height: 200px;
-  position: relative;
-  transition: all 0.3s ease;
-`
-
-const ThumbOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.2) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  ${Thumb}:hover & {
-    opacity: 1;
-  }
-`
-
-const ContentWrapper = styled.div`
-  padding: 20px;
-`
-
-const Label = styled.div`
-  font-family: "Raleway";
-  font-size: 16pt;
-  line-height: 1.4;
-  font-weight: 600;
-  color: #444649;
-  margin-bottom: 12px;
-  transition: color 0.3s ease;
-
-  ${PatentCard}:hover & {
-    color: #04c2c9;
-  }
-`
-
-const Subl = styled.div`
+const Card = styled.article`
+  background: var(--surface-primary);
+  border-radius: 18px;
+  border: 1px solid var(--border-subtle);
+  padding: 24px;
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 260px;
+  box-shadow: var(--shadow-soft);
+`;
+
+const IconCircle = styled.span`
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-muted);
+  color: var(--accent-contrast);
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-`
+  justify-content: center;
+  font-size: 1.3rem;
+`;
 
-const IdLabel = styled.span`
-  font-family: "Raleway";
-  font-size: 12pt;
-  color: #616161;
-  font-weight: 500;
-`
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
 
-const IdNumber = styled.span`
-  font-family: "Raleway";
-  font-size: 12pt;
-  color: #e31b6d;
+const Title = styled.h3`
+  margin: 0;
+  font-size: 1.05rem;
   font-weight: 600;
-`
+  color: var(--text-strong);
+`;
 
-const Date = styled.div`
-  font-family: "Raleway";
-  font-size: 11pt;
-  color: #04c2c9;
-  margin: 5px 0 0 0;
-  font-weight: 500;
-`
+const Metadata = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+`;
 
-const Bar = styled.div`
-  margin: 15px 0px;
-  background: #04c2c9;
-  height: 3px;
-  width: 40px;
-  transition: width 0.3s ease;
+const Badge = styled.span`
+  background: var(--surface-elevated);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 0.78rem;
+  color: var(--text-strong);
+  border: 1px solid var(--border-subtle);
+`;
 
-  ${PatentCard}:hover & {
-    width: 60px;
-  }
-`
+const MetaText = styled.span`
+  color: var(--text-muted);
+  font-size: 0.85rem;
+`;
 
-export default Patent
+const Summary = styled.p`
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+`;
+
+export default Patent;
