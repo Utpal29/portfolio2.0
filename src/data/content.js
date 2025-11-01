@@ -1,10 +1,10 @@
 export const portfolioContent = {
   hero: {
-    name: 'Utpal Prajapati',
+    name: 'Utpal Manishchandra Prajapati',
     title: 'Software Engineer • Data/Analytics',
     elevatorPitchVariants: {
       energetic:
-        'I turn ambiguous ideas into shipped features fast. From backend logic and data workflows to clean, responsive UIs, I care about clarity, performance, and measurable impact.',
+        'I turn ambiguous ideas into shipped features fast. From Spring Boot APIs and reliable data workflows to clean, responsive UIs, I care about clarity, performance, and measurable impact.',
       balanced:
         'Software engineer with hands-on experience across Java/Spring Boot, React/TypeScript, and analytics. I build maintainable services and UIs backed by data and tests.',
       formal:
@@ -27,9 +27,10 @@ export const portfolioContent = {
   },
   skills: {
     Backend: ['Java (Spring Boot, REST APIs)', 'Node.js (Express)', 'Python (FastAPI basics)', 'Auth (JWT, OAuth)', 'SQL: PostgreSQL (Supabase), MySQL'],
-    Frontend: ['React', 'Next.js', 'TypeScript/JavaScript', 'Tailwind CSS', 'shadcn/ui', 'State: React Query, Context', 'Charts: Recharts'],
-    'Data & Analytics': ['Python (Pandas, NumPy, scikit-learn basics)', 'ETL design, data cleaning', 'SQL', 'Visualization (Recharts, Matplotlib, Tableau)'],
-    'DevOps & Tooling': ['Git/GitHub, trunk-based flow', 'Vercel', 'Netlify', 'CI basics', 'Docker (basics)']
+    Frontend: ['React', 'Next.js', 'TypeScript/JavaScript', 'Tailwind CSS, shadcn/ui', 'State: React Query, Context', 'Charts: Recharts'],
+    'Data & Analytics': ['Python (Pandas, NumPy, scikit-learn basics)', 'ETL design, data cleaning', 'SQL (CTEs, window functions)', 'Visualization (Recharts, Matplotlib, Tableau)'],
+    'DevOps & Tooling': ['Git/GitHub, trunk-based flow', 'Vercel', 'Netlify', 'CI basics (GitHub Actions)', 'Docker (basics)'],
+    Methods: ['Agile Scrum/Kanban', 'Test-first habits (JUnit)', 'Requirements → metrics-driven delivery']
   },
   experience: [
     {
@@ -52,8 +53,8 @@ export const portfolioContent = {
       dates: 'Jan 2025 – Mar 2025',
       highlights: [
         'Coordinated 50+ teams and mentors with Kanban dashboards; centralized updates and deadlines.',
-        'Tracked submissions and unblockers; improved on-time completion by ~20% through daily standups and nudges.',
-        'Streamlined communications to reduce duplicate mentor queries by ~35% with templated updates.'
+        'Tracked submissions and unblockers; improved on-time completion.',
+        'Streamlined communications to reduce duplicate queries.'
       ],
       tech: ['Google Workspace', 'Sheets/Analytics', 'Kanban', 'Ops']
     }
@@ -117,12 +118,57 @@ export const portfolioContent = {
         'ETL + exploratory analysis on Chicago Crime dataset (2001–present) with patterns over time/location and a baseline predictive model.',
       impact: ['Processed 7M+ records; interactive visuals for hotspots & time windows', 'Decision Tree baseline for arrest likelihood'],
       links: {
-        github: '',
+        github: 'https://github.com/Utpal29/crime-analysis-visualization',
         live: '',
         image: 'public/crime-analytics.jpeg'
       },
       stack: ['Python', 'Pandas', 'Tableau', 'scikit-learn (Decision Tree)'],
       features: ['Cleaning, feature engineering (time/district)', 'Dashboards for stakeholders', 'Model performance reporting']
+    },
+    {
+      name: 'AudioGrab — Instagram Reel → MP3',
+      summary:
+        'Full-stack downloader that lets users paste any public Instagram Reel link and instantly grab the MP3 through a polished glassmorphism UI.',
+      impact: [
+        'Next.js proxy streams ffmpeg output directly to the browser for instant downloads',
+        'FastAPI service wraps Instaloader + ffmpeg with resilient cleanup and Render-friendly packaging'
+      ],
+      links: {
+        github: 'https://github.com/Utpal29/AudioGrab',
+        live: 'https://audio-grab.vercel.app/',
+        image: 'public/audiograb.png'
+      },
+      stack: ['Next.js 13 (TypeScript)', 'React', 'FastAPI', 'Instaloader', 'ffmpeg', 'Render', 'Vercel'],
+      features: [
+        'Responsive landing experience with gradient accents, status messaging, and spinner states',
+        'Secure proxy (/api/grab) that streams MP3s without touching Instagram APIs directly',
+        'Temporary download workspace with background cleanup to keep hosting costs low',
+        'Render blueprint + custom build script to bundle static ffmpeg on deploy'
+      ]
+    },
+    {
+      name: 'Malicious Traffic Detector — Network Intrusion Detection System',
+      summary:
+        'Machine learning–based intrusion detection system built on the NSL-KDD dataset to classify network traffic as normal or malicious. Compared eight algorithms to determine the most effective approach for identifying DoS, Probe, R2L, and U2R attacks, with Random Forest emerging as the most reliable model.',
+      impact: [
+        'Implemented end-to-end ML workflow: data preprocessing, feature encoding, scaling, and evaluation',
+        'Benchmarked eight models including Random Forest, MLP, SVM, AdaBoost, and XGBoost',
+        'Achieved 99% accuracy, precision, and recall with Random Forest and MLP classifiers',
+        'Enhanced IDS understanding by comparing algorithmic calibration and ROC-AUC performance'
+      ],
+      links: {
+        github: 'https://github.com/Utpal29/malicious-traffic-detector',
+        live: '',
+        image: 'public/malicious-traffic-detector.png'
+      },
+      stack: ['Python', 'scikit-learn', 'pandas', 'matplotlib', 'seaborn', 'XGBoost'],
+      features: [
+        'Preprocessing pipeline using LabelEncoder and StandardScaler for 41 network attributes',
+        'Visualization of attack type distribution and correlation with target labels',
+        'Evaluation metrics: accuracy, precision, recall, F1-score, and ROC-AUC',
+        'Comparison of ensemble, neural, and classical ML models for intrusion detection',
+        'Final report demonstrating Random Forest as the top-performing classifier'
+      ]
     }
   ],
   publicationsIp: {
