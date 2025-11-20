@@ -1,17 +1,17 @@
 import { portfolioContent } from './content';
 
 const patentFocusMap = {
-  'HEALTHCARE SYSTEM FOR CANCER CARE AND METHOD': 'AI-assisted treatment pathways that personalize oncology care plans.',
-  'AUTONOMOUS VEHICLE SYSTEM FOR DATA SELECTION ON BOARD': 'Edge intelligence that prioritizes sensor fusion workloads inside autonomous fleets.',
-  'WIRELESS SIGNAL NOISE REDUCTION METHOD AND SYSTEM': 'Signal-processing techniques that improve connectivity reliability in noisy environments.',
-  'SUPPLY CHAIN MANAGEMENT RISK PREDICTION': 'Predictive analytics that surfaces supplier disruptions before they impact operations.'
+  'An Artificial Intelligence Based Integrated IoT & Machine Learning Healthcare System for Cancer Care and Method Thereof': 'AI-assisted treatment pathways that personalize oncology care plans.',
+  'A Machine Learning Based Intelligent Model for an Autonomous Vehicle System for Data Selection On Board': 'Edge intelligence that prioritizes sensor fusion workloads inside autonomous fleets.',
+  'An Intelligent Wireless Signal Noise Reduction Method and System Based on Machine Learning': 'Signal-processing techniques that improve connectivity reliability in noisy environments.',
+  'Method and System for Supply Chain Management Risk Prediction Based on Convolution Neural Network': 'Predictive analytics that surfaces supplier disruptions before they impact operations.'
 };
 
 const inventorshipMap = {
-  'HEALTHCARE SYSTEM FOR CANCER CARE AND METHOD': 'Co-Inventor',
-  'AUTONOMOUS VEHICLE SYSTEM FOR DATA SELECTION ON BOARD': 'Co-Inventor',
-  'WIRELESS SIGNAL NOISE REDUCTION METHOD AND SYSTEM': 'Co-Inventor',
-  'SUPPLY CHAIN MANAGEMENT RISK PREDICTION': 'Co-Inventor'
+  'An Artificial Intelligence Based Integrated IoT & Machine Learning Healthcare System for Cancer Care and Method Thereof': 'Co-Inventor',
+  'A Machine Learning Based Intelligent Model for an Autonomous Vehicle System for Data Selection On Board': 'Co-Inventor',
+  'An Intelligent Wireless Signal Noise Reduction Method and System Based on Machine Learning': 'Co-Inventor',
+  'Method and System for Supply Chain Management Risk Prediction Based on Convolution Neural Network': 'Co-Inventor'
 };
 
 const formatDate = (isoDate) => {

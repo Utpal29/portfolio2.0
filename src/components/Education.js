@@ -1,156 +1,187 @@
 import React from 'react';
 import styled from 'styled-components';
-
-const educationHistory = [
-  {
-    degree: 'Project Management – Information Technology (Postgraduate Certificate)',
-    school: 'Seneca Polytechnic',
-    location: 'Toronto, Canada',
-    period: '2024 – 2025',
-    gpa: 'GPA 3.8 / 4.0',
-    highlights: ['Capstone: delivered PMO playbook for cross-border product launch.', 'Academic merit scholarship recipient.']
-  },
-  {
-    degree: 'Business Analytics (Postgraduate Certificate)',
-    school: 'Seneca Polytechnic',
-    location: 'Toronto, Canada',
-    period: '2023 – 2024',
-    gpa: 'GPA 4.0 / 4.0',
-    highlights: ['Dean’s Honour List', 'Led analytics lab sessions for 40+ classmates.']
-  },
-  {
-    degree: 'B.Tech – Computer Science and Engineering',
-    school: 'Vellore Institute of Technology',
-    location: 'Vellore, India',
-    period: '2019 – 2023',
-    gpa: 'GPA 8 / 10',
-    highlights: ['Elected Coding Club mentor', 'Graduated with specialization in Data Analytics.']
-  }
-];
+import { motion } from 'framer-motion';
+import { portfolioContent } from '../data';
+import SectionHeading from './SectionHeading';
 
 const Education = () => {
+  const items = (portfolioContent.education || []).map((e) => ({
+    school: e.school,
+    degree: e.degree,
+    location: e.location,
+    period: e.dates,
+    details: e.details || []
+  }));
+
   return (
     <Section id="education">
-      <SectionHeading>
-        <h2>Education</h2>
-      </SectionHeading>
-      <EduList>
-        {educationHistory.map((entry) => (
-          <EduItem key={entry.degree}>
-            <Degree>{entry.degree}</Degree>
-            <School>{entry.school}</School>
-            <MetaList>
-              <MetaItem>
-                <MetaLabel>Location</MetaLabel>
-                <MetaValue>{entry.location}</MetaValue>
-              </MetaItem>
-              <MetaItem>
-                <MetaLabel>Years</MetaLabel>
-                <MetaValue>{entry.period}</MetaValue>
-              </MetaItem>
-              {entry.gpa && (
-                <MetaItem>
-                  <MetaLabel>GPA</MetaLabel>
-                  <MetaValue>{entry.gpa.replace(/^GPA\s*/i, '')}</MetaValue>
-                </MetaItem>
-              )}
-            </MetaList>
-          </EduItem>
-        ))}
-      </EduList>
+      <Container>
+        <SectionHeading
+          title="ACADEMICS"
+          subtitle="EDUCATION HISTORY"
+        />
+
+        <Timeline>
+          {items.map((edu, index) => (
+            <TimelineItem
+              key={`${edu.school}-${edu.period}`}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <TimelineMarker>
+                <Dot />
+                <Line />
+              </TimelineMarker>
+              <Card>
+                <CardHeader>
+                  <div>
+                    <Degree>{edu.degree}</Degree>
+                    <School>{edu.school} <Location>— {edu.location}</Location></School>
+                  </div>
+                  <Period>{edu.period}</Period>
+                </CardHeader>
+
+                {edu.details && edu.details.length > 0 && (
+                  <StatsRow>
+                    {edu.details.map((d) => (
+                      <StatBadge key={d}>{d}</StatBadge>
+                    ))}
+                  </StatsRow>
+                )}
+              </Card>
+            </TimelineItem>
+          ))}
+        </Timeline>
+      </Container>
     </Section>
   );
 };
 
+export default Education;
+
 const Section = styled.section`
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: clamp(48px, 9vw, 72px) clamp(16px, 6vw, 24px);
+  padding: 0 24px 120px;
+  position: relative;
+  z-index: 1;
 `;
 
-const SectionHeading = styled.div`
-  margin: 0 0 24px 0;
-  text-align: center;
+const Container = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
+`;
 
-  h2 {
-    margin: 0;
-    font-size: clamp(1.6rem, 5vw, 1.9rem);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
+const Timeline = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
+const TimelineItem = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 32px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 2px 1fr;
+    gap: 20px;
+    padding-left: 8px;
   }
 `;
 
-const EduList = styled.div`
-  max-width: 900px;
-  margin: 0 auto;
+const TimelineMarker = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  align-items: center;
+  position: relative;
 `;
 
-const EduItem = styled.div`
+const Dot = styled.div`
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-secondary);
+  box-shadow: 0 0 10px var(--accent-secondary);
+  z-index: 2;
+`;
+
+const Line = styled.div`
+  width: 2px;
+  flex-grow: 1;
+  background: linear-gradient(to bottom, var(--accent-secondary), transparent);
+  margin-top: 4px;
+  opacity: 0.3;
+`;
+
+const Card = styled.div`
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 32px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    border-color: var(--accent-secondary);
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+  }
+
+  @media (max-width: 600px) {
+    padding: 24px;
+  }
+`;
+
+const CardHeader = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
   gap: 12px;
-  padding: clamp(20px, 6vw, 28px);
-  background: var(--surface-elevated);
-  border: 1px solid var(--border-subtle);
-  border-radius: 18px;
-  box-shadow: var(--shadow-soft);
 `;
-
-/* removed TopRow layout; degree and school now stack for clearer hierarchy */
 
 const Degree = styled.h3`
-  margin: 0;
-  font-size: clamp(1rem, 4.2vw, 1.1rem);
-  font-weight: 600;
-  color: var(--text-strong);
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-family: var(--font-display);
 `;
 
-/* removed old card/gpa badge styles for a lean list */
-
-const School = styled.p`
-  margin: 0;
-  font-size: 0.95rem;
-  color: var(--accent);
+const School = styled.div`
+  color: var(--accent-secondary);
   font-weight: 600;
+  font-size: 1rem;
 `;
 
-const MetaList = styled.div`
+const Location = styled.span`
+  color: var(--text-secondary);
+  font-weight: 400;
+  font-size: 0.9rem;
+`;
+
+const Period = styled.span`
+  font-family: monospace;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+`;
+
+const StatsRow = styled.div`
   display: flex;
   flex-wrap: wrap;
-  gap: 12px 18px;
-  margin-top: 2px;
-
-  @media (max-width: 540px) {
-    gap: 10px 14px;
-  }
+  gap: 12px;
+  margin-top: 16px;
 `;
 
-const MetaItem = styled.div`
-  display: inline-flex;
-  align-items: baseline;
-  gap: 6px;
-
-  @media (max-width: 540px) {
-    align-items: center;
-    gap: 4px;
-  }
-`;
-
-const MetaLabel = styled.span`
-  font-size: 0.78rem;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--text-muted);
-`;
-
-const MetaValue = styled.span`
+const StatBadge = styled.span`
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--accent-secondary);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  padding: 6px 14px;
+  border-radius: 8px;
   font-size: 0.9rem;
-  color: var(--text-strong);
+  font-weight: 500;
+  letter-spacing: 0.02em;
 `;
-
-/* description list removed */
-
-export default Education;

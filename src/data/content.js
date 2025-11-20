@@ -47,16 +47,39 @@ export const portfolioContent = {
       tech: ['Java', 'Spring Boot', 'REST', 'JUnit', 'SQL', 'Git', 'Agile']
     },
     {
-      company: 'Seneca Hackathons',
+      company: 'Seneca Food Hackathon 2025',
       role: 'Event Operations Intern (Team Lead)',
       location: 'Toronto, Canada',
       dates: 'Jan 2025 – Mar 2025',
       highlights: [
-        'Coordinated 50+ teams and mentors with Kanban dashboards; centralized updates and deadlines.',
-        'Tracked submissions and unblockers; improved on-time completion.',
-        'Streamlined communications to reduce duplicate queries.'
+        'Led coordination and progress tracking for 1000+ participants using Kanban dashboards and shared analytics sheets.',
+        'Streamlined communications across 50+ teams and mentors, enhancing collaboration and timely submissions.',
+        'Strengthened leadership and Agile coordination skills in a high-pressure event environment.'
       ],
       tech: ['Google Workspace', 'Sheets/Analytics', 'Kanban', 'Ops']
+    }
+  ],
+  education: [
+    {
+      school: 'Seneca Polytechnic',
+      degree: 'Post-Graduate Certificate, Project Management – Information Technology',
+      location: 'Toronto, Canada',
+      dates: '2024 – 2025',
+      details: ['GPA: 3.8/4.0']
+    },
+    {
+      school: 'Seneca Polytechnic',
+      degree: 'Post-Graduate Certificate, Business Analytics',
+      location: 'Toronto, Canada',
+      dates: '2023 – 2024',
+      details: ['GPA: 4.0/4.0']
+    },
+    {
+      school: 'Vellore Institute of Technology',
+      degree: 'B.Tech in Computer Science and Engineering',
+      location: 'Vellore, India',
+      dates: '2019 – 2023',
+      details: ['GPA: 8/10']
     }
   ],
   projects: [
@@ -176,10 +199,10 @@ export const portfolioContent = {
       'I focus on practical software and data problems—efficiency, reliability, and clear interfaces. I’ve contributed four filed patents across healthcare, autonomy, wireless signal processing, and supply chain risk, plus one IEEE publication on hybrid optimization for sentiment classification.',
     itemsDetailed: {
       patents: [
-        { title: 'HEALTHCARE SYSTEM FOR CANCER CARE AND METHOD', applicationNumber: '202241031893', filingDate: '2022-06-03' },
-        { title: 'AUTONOMOUS VEHICLE SYSTEM FOR DATA SELECTION ON BOARD', applicationNumber: '202241047484', filingDate: '2022-08-20' },
-        { title: 'WIRELESS SIGNAL NOISE REDUCTION METHOD AND SYSTEM', applicationNumber: '202241047466', filingDate: '2022-08-20' },
-        { title: 'SUPPLY CHAIN MANAGEMENT RISK PREDICTION', applicationNumber: '202241050428', filingDate: '2022-09-03' }
+        { title: 'An Artificial Intelligence Based Integrated IoT & Machine Learning Healthcare System for Cancer Care and Method Thereof', applicationNumber: '202241031893', filingDate: '2022-06-03' },
+        { title: 'A Machine Learning Based Intelligent Model for an Autonomous Vehicle System for Data Selection On Board', applicationNumber: '202241047484', filingDate: '2022-08-20' },
+        { title: 'An Intelligent Wireless Signal Noise Reduction Method and System Based on Machine Learning', applicationNumber: '202241047466', filingDate: '2022-08-20' },
+        { title: 'Method and System for Supply Chain Management Risk Prediction Based on Convolution Neural Network', applicationNumber: '202241050428', filingDate: '2022-09-03' }
       ],
       research: [
         {

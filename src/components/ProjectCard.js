@@ -1,248 +1,230 @@
-import React, { useState, useId } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FiGithub, FiExternalLink, FiChevronDown } from 'react-icons/fi';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FiGithub, FiExternalLink } from 'react-icons/fi';
 
 const ProjectCard = ({ project }) => {
   const [expanded, setExpanded] = useState(false);
-  const panelId = useId();
+
 
   const previewSrc = project.image && project.image.startsWith('public/')
     ? project.image.replace(/^public\//, '/')
     : project.image || '';
 
-  const previewAlt = `${project.title} cover`;
   const topTech = (project.techStack || []).slice(0, 4);
 
   return (
-    <Card>
-      {previewSrc ? (
-        <Preview>
-          <img src={previewSrc} alt={previewAlt} loading="lazy" />
-        </Preview>
-      ) : null}
-      <Header
-        type="button"
-        onClick={() => setExpanded((prev) => !prev)}
-        aria-expanded={expanded}
-        aria-controls={panelId}
-      >
-        <Title>{project.title}</Title>
-        <Toggle aria-hidden="true" expanded={expanded}>
-          <FiChevronDown />
-        </Toggle>
-      </Header>
-      <Summary>{project.summary}</Summary>
-      <TechList>
-        {topTech.map((tech) => (
-          <TechBadge key={tech}>{tech}</TechBadge>
-        ))}
-      </TechList>
-      {expanded && (
-        <Details id={panelId}>
-          <AchievementList>
-            {project.achievements.map((achievement) => (
-              <li key={achievement}>{achievement}</li>
+    <Card
+      layout
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      whileHover={{ y: -10, transition: { duration: 0.3 } }}
+    >
+      <CardContent>
+        {previewSrc && (
+          <Preview>
+            <img src={previewSrc} alt={project.title} loading="lazy" />
+            <Overlay>
+              <ViewButton onClick={() => setExpanded(!expanded)}>
+                {expanded ? 'CLOSE_DETAILS' : 'VIEW_DETAILS'}
+              </ViewButton>
+            </Overlay>
+          </Preview>
+        )}
+
+        <Header onClick={() => setExpanded(!expanded)}>
+          <Title>{project.title}</Title>
+          <TechStack>
+            {topTech.map((tech) => (
+              <TechBadge key={tech}>{tech}</TechBadge>
             ))}
-          </AchievementList>
-          <Actions>
-            <ActionButton href={project.github} target="_blank" rel="noopener noreferrer">
-              <FiGithub />
-              <span>GitHub</span>
-            </ActionButton>
-            {project.live && (
-              <ActionButton href={project.live} target="_blank" rel="noopener noreferrer" variant="secondary">
-                <FiExternalLink />
-                <span>Live Demo</span>
-              </ActionButton>
-            )}
-          </Actions>
-        </Details>
-      )}
+          </TechStack>
+        </Header>
+
+        <AnimatePresence>
+          {expanded && (
+            <Details
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <Summary>{project.summary}</Summary>
+              <AchievementList>
+                {project.achievements.map((achievement) => (
+                  <li key={achievement}>{achievement}</li>
+                ))}
+              </AchievementList>
+              <Actions>
+                <ActionButton href={project.github} target="_blank" rel="noopener noreferrer">
+                  <FiGithub />
+                  <span>SOURCE_CODE</span>
+                </ActionButton>
+                {project.live && (
+                  <ActionButton href={project.live} target="_blank" rel="noopener noreferrer" variant="secondary">
+                    <FiExternalLink />
+                    <span>LIVE_DEMO</span>
+                  </ActionButton>
+                )}
+              </Actions>
+            </Details>
+          )}
+        </AnimatePresence>
+      </CardContent>
     </Card>
   );
 };
 
-const Card = styled.article`
-  background: var(--surface-elevated);
-  border-radius: 18px;
-  border: 1px solid var(--border-subtle);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  box-shadow: var(--shadow-soft);
+export default ProjectCard;
+
+const Card = styled(motion.article)`
+  background: var(--surface-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-hover);
-    border-color: var(--accent);
-  }
-
-  @media (max-width: 480px) {
-    border-radius: 16px;
+    border-color: var(--accent-glow);
+    box-shadow: var(--glow-box);
   }
 `;
 
+const CardContent = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const Preview = styled.div`
-  width: 100%;
+  position: relative;
   aspect-ratio: 16 / 9;
-  background: var(--surface-primary);
-  border-bottom: 1px solid var(--border-subtle);
   overflow: hidden;
+  background: #000;
 
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
+    transition: transform 0.5s ease;
+    opacity: 0.8;
+  }
+
+  &:hover img {
+    transform: scale(1.05);
+    opacity: 0.4;
   }
 `;
 
-const Header = styled.button`
+const Overlay = styled.div`
+  position: absolute;
+  inset: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  background: transparent;
-  border: none;
-  padding: 16px 18px 0 18px;
-  cursor: pointer;
-  text-align: left;
-  gap: 10px;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  background: rgba(0, 0, 0, 0.6);
 
-  @media (max-width: 480px) {
-    padding: 16px 16px 0 16px;
-    flex-wrap: wrap;
-    gap: 8px;
+  ${Preview}:hover & {
+    opacity: 1;
   }
+`;
+
+const ViewButton = styled.button`
+  background: transparent;
+  border: 1px solid var(--accent-glow);
+  color: var(--accent-glow);
+  padding: 12px 24px;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--accent-glow);
+    color: #000;
+  }
+`;
+
+const Header = styled.div`
+  padding: 24px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: clamp(1.1rem, 4.8vw, 1.25rem);
-  font-weight: 600;
-  color: var(--text-strong);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-family: var(--font-display);
 `;
 
-const Toggle = styled.span`
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--surface-elevated);
-  color: var(--text-muted);
-  transition: transform 0.3s ease;
-
-  svg {
-    transition: transform 0.3s ease;
-    transform: ${({ expanded }) => (expanded ? 'rotate(-180deg)' : 'rotate(0deg)')};
-  }
-`;
-
-const Summary = styled.p`
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  line-height: 1.6;
-  padding: 0 18px;
-
-  @media (max-width: 480px) {
-    padding: 0 16px;
-    font-size: 0.92rem;
-  }
-`;
-
-const TechList = styled.div`
+const TechStack = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 0 18px 12px 18px;
-
-  @media (max-width: 480px) {
-    padding: 0 16px 12px 16px;
-    gap: 6px;
-  }
 `;
 
 const TechBadge = styled.span`
-  background: var(--accent);
-  color: var(--accent-contrast);
+  font-size: 0.75rem;
+  color: var(--accent-glow);
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  padding: 4px 10px;
   border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 0.8rem;
+  font-family: monospace;
 `;
 
-const Details = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 0 18px 18px 18px;
+const Details = styled(motion.div)`
+  padding: 0 24px 24px;
+  overflow: hidden;
+`;
 
-  @media (max-width: 480px) {
-    padding: 0 16px 16px 16px;
-    gap: 14px;
-  }
+const Summary = styled.p`
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
 `;
 
 const AchievementList = styled.ul`
-  margin: 0;
-  padding-left: 18px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  color: var(--text-muted);
+  padding-left: 20px;
+  color: var(--text-secondary);
+  margin-bottom: 24px;
 
   li {
-    line-height: 1.5;
-  }
-
-  @media (max-width: 480px) {
-    padding-left: 16px;
-    gap: 8px;
+    margin-bottom: 8px;
+    &::marker {
+      color: var(--accent-glow);
+    }
   }
 `;
 
 const Actions = styled.div`
   display: flex;
+  gap: 16px;
   flex-wrap: wrap;
-  gap: 10px;
-  padding: 0 18px 18px 18px;
-
-  @media (max-width: 480px) {
-    padding: 0 16px 16px 16px;
-    flex-direction: column;
-  }
 `;
 
 const ActionButton = styled.a`
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 18px;
-  border-radius: 999px;
+  padding: 10px 20px;
+  background: ${({ variant }) => (variant === 'secondary' ? 'transparent' : 'var(--accent-primary)')};
+  color: ${({ variant }) => (variant === 'secondary' ? 'var(--text-primary)' : '#fff')};
+  border: ${({ variant }) => (variant === 'secondary' ? '1px solid var(--border-glass)' : 'none')};
+  border-radius: 4px;
   text-decoration: none;
-  font-size: 0.9rem;
-  font-weight: 600;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-  background: ${({ variant }) => (variant === 'secondary' ? 'var(--surface-elevated)' : 'var(--accent)')};
-  color: ${({ variant }) => (variant === 'secondary' ? 'var(--text-strong)' : 'var(--accent-contrast)')};
-  box-shadow: ${({ variant }) => (variant === 'secondary' ? 'none' : '0 10px 25px rgba(20, 184, 166, 0.35)')};
-
-  svg {
-    font-size: 1.1rem;
-  }
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  transition: all 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${({ variant }) => (variant === 'secondary' ? 'var(--shadow-soft)' : '0 14px 32px rgba(20, 184, 166, 0.45)')};
-  }
-
-  @media (max-width: 480px) {
-    justify-content: center;
-    width: 100%;
+    background: ${({ variant }) => (variant === 'secondary' ? 'rgba(255,255,255,0.1)' : 'var(--accent-glow)')};
+    color: ${({ variant }) => (variant === 'secondary' ? 'var(--text-primary)' : '#000')};
   }
 `;
-
-export default ProjectCard;

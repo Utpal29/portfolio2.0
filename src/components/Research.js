@@ -1,142 +1,116 @@
 import React from 'react';
 import styled from 'styled-components';
-import { FiBookOpen, FiExternalLink } from 'react-icons/fi';
-import { researchPapers } from '../data/publications';
+import { motion } from 'framer-motion';
+import { FiBookOpen } from 'react-icons/fi';
+
 
 const Research = () => {
+  // Updated with specific paper details provided by user
+  const research = {
+    title: "Role of Hybrid Optimization in Improving Performance of Sentiment Classification System",
+    venue: "2022 Seventh International Conference on Parallel, Distributed and Grid Computing (PDGC)",
+    doi: "10.1109/PDGC56933.2022.10053333",
+    summary: "Published research exploring hybrid optimization techniques to enhance sentiment classification performance.",
+    link: "https://ieeexplore.ieee.org/document/10053333"
+  };
+
   return (
-    <List>
-      {researchPapers.map((paper) => (
-        <PaperCard key={paper.title}>
-          <IconCircle aria-hidden>
-            <FiBookOpen />
-          </IconCircle>
-          <Content>
-            <Title>{paper.title}</Title>
-            <ChipRow>
-              <Chip title="Venue">{paper.venue}</Chip>
-              {paper.year && <Chip>{paper.year}</Chip>}
-              {paper.doi && <Chip variant="muted">DOI: {paper.doi}</Chip>}
-            </ChipRow>
-            <Summary>{paper.summary}</Summary>
-            <Actions>
-              <Action href={paper.link} target="_blank" rel="noopener noreferrer">
-                <FiExternalLink />
-                <span>IEEE Xplore</span>
-              </Action>
-            </Actions>
-          </Content>
-        </PaperCard>
-      ))}
-    </List>
+    <Card>
+      <Header>
+        <IconWrapper>
+          <FiBookOpen />
+        </IconWrapper>
+        <Title>Research Publication</Title>
+      </Header>
+      <PaperTitle>{research.title}</PaperTitle>
+      <Venue>{research.venue}</Venue>
+      <DOI>DOI: {research.doi}</DOI>
+      <Link href={research.link} target="_blank" rel="noopener noreferrer">View Paper &rarr;</Link>
+    </Card>
   );
 };
 
-const List = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 24px;
+export default Research;
+
+const Card = styled(motion.div)`
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 40px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  }
 
   @media (max-width: 600px) {
-    gap: 18px;
+    padding: 24px;
   }
 `;
 
-const PaperCard = styled.article`
-  background: var(--surface-elevated);
-  border-radius: 18px;
-  border: 1px solid var(--border-subtle);
-  padding: 20px;
+const Header = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-shadow: var(--shadow-soft);
-
-  @media (max-width: 480px) {
-    padding: 18px;
-    gap: 10px;
-  }
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
 `;
 
-const IconCircle = styled.span`
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--accent-muted);
-  color: var(--accent-contrast);
-  display: inline-flex;
+const IconWrapper = styled.div`
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(99, 102, 241, 0.1);
+  display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.3rem;
-`;
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  color: var(--accent-secondary);
+  font-size: 1.2rem;
 `;
 
 const Title = styled.h3`
   margin: 0;
-  font-size: clamp(1rem, 4.2vw, 1.05rem);
-  font-weight: 600;
-  color: var(--text-strong);
+  font-size: 1.5rem;
+  color: var(--text-primary);
+  font-family: var(--font-display);
 `;
 
-const ChipRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  @media (max-width: 480px) {
-    gap: 6px;
-  }
+const PaperTitle = styled.h4`
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  line-height: 1.4;
 `;
 
-const Chip = styled.span`
-  background: ${({ variant }) => (variant === 'muted' ? 'var(--surface-primary)' : 'var(--accent)')};
-  color: ${({ variant }) => (variant === 'muted' ? 'var(--text-muted)' : 'var(--accent-contrast)')};
-  border: 1px solid var(--border-subtle);
-  border-radius: 999px;
-  padding: 6px 10px;
-  font-size: 0.8rem;
-  font-weight: 600;
+const Venue = styled.p`
+  color: var(--accent-glow);
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  font-weight: 500;
 `;
 
-const Summary = styled.p`
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.93rem;
-  line-height: 1.6;
+const DOI = styled.p`
+  color: var(--text-secondary);
+  font-family: monospace;
+  font-size: 0.85rem;
+  margin: 0 0 24px;
 `;
 
-const Actions = styled.div`
-  display: flex;
-  gap: 10px;
-
-  @media (max-width: 480px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-`;
-
-const Action = styled.a`
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+const Link = styled.a`
+  display: inline-block;
+  color: var(--accent-primary);
   font-weight: 600;
   text-decoration: none;
-  color: var(--accent);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
 
   &:hover {
-    color: var(--accent-strong);
-  }
-
-  @media (max-width: 480px) {
-    font-size: 0.92rem;
+    color: var(--accent-glow);
   }
 `;
-
-export default Research;

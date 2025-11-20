@@ -1,6 +1,8 @@
 import React, { forwardRef } from 'react';
 import styled from 'styled-components';
+import { motion } from 'framer-motion';
 import { portfolioContent } from '../data';
+import SectionHeading from './SectionHeading';
 
 const Experience = forwardRef((_, ref) => {
   const items = (portfolioContent.experience || []).map((e) => ({
@@ -14,217 +16,182 @@ const Experience = forwardRef((_, ref) => {
 
   return (
     <Section id="experience" ref={ref}>
-      <SectionHeading>
-        <h2>Experience</h2>
-      </SectionHeading>
-      <Timeline>
-        {items.map((exp) => (
-          <TimelineItem key={`${exp.company}-${exp.period}`}>
-            <Dot />
-            <Card>
-              <Meta>
-                <HeaderRow>
-                  <Role>{exp.title}</Role>
-                  <CompanyBadge>{exp.company}</CompanyBadge>
-                </HeaderRow>
-                <MetaRow>
-                  {exp.location && <MetaTag>{exp.location}</MetaTag>}
-                  {exp.period && <MetaTag>{exp.period}</MetaTag>}
-                </MetaRow>
-              </Meta>
-              {exp.highlights && exp.highlights.length > 0 && (
-                <Highlights>
-                  {exp.highlights.map((h) => (
-                    <li key={h}>{h}</li>
-                  ))}
-                </Highlights>
-              )}
-              {exp.tech && exp.tech.length > 0 && (
-                <TechList>
-                  {exp.tech.slice(0, 6).map((t) => (
-                    <TechChip key={t}>{t}</TechChip>
-                  ))}
-                </TechList>
-              )}
-            </Card>
-          </TimelineItem>
-        ))}
-      </Timeline>
+      <Container>
+        <SectionHeading
+          title="CAREER_LOG"
+          subtitle="EXPERIENCE HISTORY"
+        />
+
+        <Timeline>
+          {items.map((exp, index) => (
+            <TimelineItem
+              key={`${exp.company}-${exp.period}`}
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <TimelineMarker>
+                <Dot />
+                <Line />
+              </TimelineMarker>
+              <Card>
+                <CardHeader>
+                  <div>
+                    <Role>{exp.title}</Role>
+                    <Company>{exp.company}</Company>
+                    <Location>{exp.location}</Location>
+                  </div>
+                  <Period>{exp.period}</Period>
+                </CardHeader>
+
+                {exp.highlights && exp.highlights.length > 0 && (
+                  <Highlights>
+                    {exp.highlights.map((h) => (
+                      <li key={h}>{h}</li>
+                    ))}
+                  </Highlights>
+                )}
+
+                {exp.tech && exp.tech.length > 0 && (
+                  <TechList>
+                    {exp.tech.slice(0, 6).map((t) => (
+                      <TechChip key={t}>{t}</TechChip>
+                    ))}
+                  </TechList>
+                )}
+              </Card>
+            </TimelineItem>
+          ))}
+        </Timeline>
+      </Container>
     </Section>
   );
 });
 
 Experience.displayName = 'Experience';
 
+export default Experience;
+
 const Section = styled.section`
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: clamp(48px, 9vw, 72px) clamp(16px, 6vw, 24px);
+  padding: 120px 24px;
+  position: relative;
+  z-index: 1;
 `;
 
-const SectionHeading = styled.div`
-  margin: 0 0 24px 0;
-  text-align: center;
-  
-  h2 {
-    margin: 0;
-    font-size: clamp(1.6rem, 5vw, 1.9rem);
-    font-family: 'Raleway', sans-serif;
-    font-weight: 700;
-  }
+const Container = styled.div`
+  max-width: 1000px;
+  margin: 0 auto;
 `;
 
 const Timeline = styled.div`
-  position: relative;
-  margin: 0 auto;
-  padding-left: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
 
-  &:before {
-    content: '';
-    position: absolute;
-    left: 16px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--border-subtle);
-  }
+const TimelineItem = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 32px;
 
   @media (max-width: 600px) {
-    padding-left: 24px;
-
-    &:before {
-      left: 10px;
-    }
-  }
-
-  @media (max-width: 540px) {
-    padding-left: 0;
-
-    &:before {
-      display: none;
-    }
+    grid-template-columns: 2px 1fr;
+    gap: 20px;
+    padding-left: 8px;
   }
 `;
 
-const TimelineItem = styled.article`
+const TimelineMarker = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   position: relative;
-  margin-bottom: 24px;
-  padding-left: 24px;
-
-  @media (max-width: 540px) {
-    padding-left: 0;
-  }
 `;
 
-const Dot = styled.span`
-  position: absolute;
-  left: -2px;
-  top: 18px;
-  width: 14px;
-  height: 14px;
-  background: var(--accent);
+const Dot = styled.div`
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
-  border: 3px solid var(--page-bg);
-  box-shadow: 0 0 0 4px var(--accent-muted);
+  background: var(--accent-glow);
+  box-shadow: 0 0 10px var(--accent-glow);
+  z-index: 2;
+`;
 
-  @media (max-width: 540px) {
-    display: none;
-  }
+const Line = styled.div`
+  width: 2px;
+  flex-grow: 1;
+  background: linear-gradient(to bottom, var(--accent-glow), transparent);
+  margin-top: 4px;
+  opacity: 0.3;
 `;
 
 const Card = styled.div`
-  background: var(--surface-elevated);
-  border-radius: 18px;
-  border: 1px solid var(--border-subtle);
-  padding: 24px;
-  box-shadow: var(--shadow-soft);
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  background: var(--surface-glass);
+  border: 1px solid var(--border-glass);
+  border-radius: 24px;
+  padding: 32px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
-  @media (max-width: 600px) {
-    padding: 20px;
+  &:hover {
+    border-color: var(--accent-glow);
+    box-shadow: var(--glow-box);
   }
 
-  @media (max-width: 480px) {
-    padding: 18px;
-    gap: 12px;
+  @media (max-width: 600px) {
+    padding: 24px;
   }
 `;
 
-const Meta = styled.div`
+const CardHeader = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
 `;
 
 const Role = styled.h3`
-  margin: 0;
-  font-size: clamp(1.05rem, 4.2vw, 1.15rem);
+  margin: 0 0 4px;
+  font-size: 1.25rem;
+  color: var(--text-primary);
+  font-family: var(--font-display);
+`;
+
+const Company = styled.div`
+  color: var(--accent-glow);
   font-weight: 600;
-  color: var(--text-strong);
+  font-size: 1rem;
 `;
 
-const HeaderRow = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-
-  @media (max-width: 540px) {
-    flex-wrap: wrap;
-    align-items: flex-start;
-    gap: 8px;
-  }
+const Location = styled.div`
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-top: 4px;
 `;
 
-const CompanyBadge = styled.span`
-  background: var(--accent);
-  color: var(--accent-contrast);
+const Period = styled.span`
+  font-family: monospace;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 12px;
+  border-radius: 4px;
   font-size: 0.85rem;
-  padding: 6px 12px;
-  border-radius: 999px;
-  font-weight: 700;
-
-  @media (max-width: 540px) {
-    align-self: flex-start;
-  }
-`;
-
-const MetaRow = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-
-  @media (max-width: 540px) {
-    gap: 6px;
-  }
-`;
-
-const MetaTag = styled.span`
-  background: var(--surface-primary);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  padding: 6px 12px;
-  border-radius: 999px;
-  border: 1px solid var(--border-subtle);
 `;
 
 const Highlights = styled.ul`
-  margin: 0;
+  margin: 0 0 24px;
   padding-left: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  color: var(--text-muted);
+  color: var(--text-secondary);
 
   li {
-    line-height: 1.55;
-  }
-
-  @media (max-width: 540px) {
-    padding-left: 18px;
-    gap: 8px;
+    margin-bottom: 8px;
+    line-height: 1.6;
+    
+    &::marker {
+      color: var(--accent-glow);
+    }
   }
 `;
 
@@ -232,19 +199,14 @@ const TechList = styled.div`
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-
-  @media (max-width: 540px) {
-    gap: 6px;
-  }
 `;
 
 const TechChip = styled.span`
-  background: var(--accent);
-  color: var(--accent-contrast);
-  padding: 6px 10px;
+  font-size: 0.75rem;
+  color: var(--text-primary);
+  background: rgba(45, 212, 191, 0.1);
+  border: 1px solid var(--border-glass);
+  padding: 4px 12px;
   border-radius: 999px;
-  font-size: 0.8rem;
-  font-weight: 600;
+  font-family: monospace;
 `;
-
-export default Experience;
