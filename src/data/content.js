@@ -1,6 +1,6 @@
 export const portfolioContent = {
   hero: {
-    name: 'Utpal Manishchandra Prajapati',
+    name: 'Utpal Prajapati',
     title: 'Software Engineer • Data/Analytics',
     elevatorPitchVariants: {
       energetic:
