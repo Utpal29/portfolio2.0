@@ -84,6 +84,46 @@ export const portfolioContent = {
   ],
   projects: [
     {
+      name: 'TraceLock — Browser Privacy Inspector',
+      summary:
+        'Manifest V3 Chrome/Edge extension that reveals hidden network activity, highlights tracker domains, and shows a per-site privacy risk score.',
+      impact: [
+        'Real-time view of network requests with tracker classification',
+        'Local-only privacy analysis with no external APIs or storage'
+      ],
+      links: {
+        github: 'https://github.com/Utpal29/tracelock',
+        live: '',
+        image: 'public/tracelock.png'
+      },
+      stack: ['JavaScript', 'HTML/CSS', 'Chrome Extensions (MV3)'],
+      features: [
+        'Network timeline with filters and tracker badges',
+        'Permission probes for geolocation, camera, mic, notifications',
+        'Risk scoring and lightweight history stored in chrome.storage.local'
+      ]
+    },
+    {
+      name: 'RealHire AI — Resume Match & Optimizer',
+      summary:
+        'AI-powered tool that analyzes a resume against a job description and generates a match score, missing skills, and ATS-friendly rewritten resumes.',
+      impact: [
+        'Instant resume–JD comparison with actionable suggestions',
+        'Local history and polished UI for quick revisions'
+      ],
+      links: {
+        github: 'https://github.com/Utpal29/RealHire',
+        live: 'https://real-hire.vercel.app/',
+        image: 'public/realhire.png'
+      },
+      stack: ['Next.js 16', 'TypeScript', 'Groq SDK', 'pdfjs-dist', 'mammoth', 'Vercel'],
+      features: [
+        'PDF/DOCX parsing with automatic text extraction',
+        'LLM-backed scoring and resume rewriting',
+        'One-click copy Markdown output + saved history'
+      ]
+    },
+    {
       name: 'Coinly — Personal Finance Tracker',
       summary:
         'Modern web app to record transactions, categorize expenses, and view clean dashboards. Built for everyday speed and clarity with secure auth and responsive UI.',
