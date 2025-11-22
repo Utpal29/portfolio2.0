@@ -20,7 +20,7 @@ const Navigation = ({ heroContent, navLinks, handleScroll }) => {
       <NavContainer $scrolled={scrolled}>
         <NavContent>
           <Brand onClick={() => handleScroll(navLinks[0].ref)}>
-            {heroContent.name.split(' ')[0]}<span className="highlight">.DEV</span>
+            {heroContent.name.split(' ')[0]}<span className="highlight">.xyz</span>
           </Brand>
 
           <DesktopLinks>
