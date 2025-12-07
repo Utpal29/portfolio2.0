@@ -232,6 +232,27 @@ export const portfolioContent = {
         'Comparison of ensemble, neural, and classical ML models for intrusion detection',
         'Final report demonstrating Random Forest as the top-performing classifier'
       ]
+    },
+    {
+      name: 'ChurnIntel — Customer Churn Analytics & Retention Simulator',
+      summary:
+        'End-to-end churn analytics project on the Telco dataset that combines EDA, machine learning, SHAP explainability, segmentation, and Tableau dashboards to identify at-risk customers and test retention strategies.',
+      impact: [
+        'Predicted churn risk for thousands of customers and quantified revenue at risk using churn probability × monthly charges',
+        'Enabled data-driven retention planning through interactive Tableau dashboards and a what-if strategy simulator'
+      ],
+      links: {
+        github: 'https://github.com/Utpal29/churnintel',
+        live: '',
+        image: 'public/churnintel.png'
+      },
+      stack: ['Python', 'pandas', 'scikit-learn', 'SHAP', 'Jupyter', 'Tableau'],
+      features: [
+        'Data cleaning and feature engineering pipeline for the Telco Customer Churn dataset',
+        'Random Forest churn model with SHAP-based feature importance to explain key drivers of churn',
+        'Customer segmentation using clustering to group high-risk, price-sensitive, and loyal users',
+        'Tableau dashboard suite: Churn Overview, Segments & Risk, and Retention Strategy Simulator with adjustable strategies and adoption rates'
+      ]
     }
   ],
   publicationsIp: {
