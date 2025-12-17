@@ -34,7 +34,7 @@ const Hero = ({ heroContent, handleScroll, projectsRef }) => {
 
           <ActionGroup>
             <PrimaryButton
-              href="https://drive.google.com/file/d/1oxVEK9ZAXX3d2J8vZdzjTZLKQfn2S6V1/view?usp=sharing"
+              href="https://drive.google.com/file/d/1YWGOfpnkbT85XjQk2091LKihgLejMibN/view?usp=sharing"
               target="_blank"
               rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
